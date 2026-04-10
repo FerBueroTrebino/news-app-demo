@@ -1,5 +1,15 @@
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:news_app_clean_architecture/features/auth/data/data_sources/firebase_auth_service.dart';
+import 'package:news_app_clean_architecture/features/auth/data/repository/auth_repository_impl.dart';
+import 'package:news_app_clean_architecture/features/auth/domain/repository/auth_repository.dart';
+import 'package:news_app_clean_architecture/features/auth/domain/usecases/get_current_user.dart';
+import 'package:news_app_clean_architecture/features/auth/domain/usecases/sign_in_with_google.dart';
+import 'package:news_app_clean_architecture/features/auth/domain/usecases/sign_out.dart';
+import 'package:news_app_clean_architecture/features/auth/presentation/bloc/auth/auth_cubit.dart';
+import 'package:news_app_clean_architecture/core/constants/constants.dart';
 import 'package:news_app_clean_architecture/features/daily_news/data/data_sources/remote/news_api_service.dart';
 import 'package:news_app_clean_architecture/features/daily_news/data/repository/article_repository_impl.dart';
 import 'package:news_app_clean_architecture/features/daily_news/domain/repository/article_repository.dart';
@@ -14,46 +24,52 @@ import 'features/daily_news/presentation/bloc/article/local/local_article_bloc.d
 final sl = GetIt.instance;
 
 Future<void> initializeDependencies() async {
-
-  final database = await $FroomAppDatabase.databaseBuilder('app_database.db').build();
+  final database =
+      await $FroomAppDatabase.databaseBuilder('app_database.db').build();
   sl.registerSingleton<AppDatabase>(database);
-  
+
   // Dio
   sl.registerSingleton<Dio>(Dio());
+  sl.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);
+  final googleSignIn = GoogleSignIn.instance;
+  await googleSignIn.initialize(serverClientId: googleWebClientId);
+  sl.registerSingleton<GoogleSignIn>(googleSignIn);
 
   // Dependencies
   sl.registerSingleton<NewsApiService>(NewsApiService(sl()));
-
-  sl.registerSingleton<ArticleRepository>(
-    ArticleRepositoryImpl(sl(),sl())
+  sl.registerSingleton<FirebaseAuthService>(
+    FirebaseAuthService(sl(), sl()),
   );
-  
+
+  sl.registerSingleton<ArticleRepository>(ArticleRepositoryImpl(sl(), sl()));
+  sl.registerSingleton<AuthRepository>(
+    AuthRepositoryImpl(sl()),
+  );
+
   //UseCases
-  sl.registerSingleton<GetArticleUseCase>(
-    GetArticleUseCase(sl())
-  );
+  sl.registerSingleton<GetArticleUseCase>(GetArticleUseCase(sl()));
 
-  sl.registerSingleton<GetSavedArticleUseCase>(
-    GetSavedArticleUseCase(sl())
-  );
+  sl.registerSingleton<GetSavedArticleUseCase>(GetSavedArticleUseCase(sl()));
 
-  sl.registerSingleton<SaveArticleUseCase>(
-    SaveArticleUseCase(sl())
-  );
-  
-  sl.registerSingleton<RemoveArticleUseCase>(
-    RemoveArticleUseCase(sl())
-  );
+  sl.registerSingleton<SaveArticleUseCase>(SaveArticleUseCase(sl()));
 
+  sl.registerSingleton<RemoveArticleUseCase>(RemoveArticleUseCase(sl()));
+  sl.registerSingleton<GetCurrentUserUseCase>(
+    GetCurrentUserUseCase(sl()),
+  );
+  sl.registerSingleton<SignInWithGoogleUseCase>(
+    SignInWithGoogleUseCase(sl()),
+  );
+  sl.registerSingleton<SignOutUseCase>(
+    SignOutUseCase(sl()),
+  );
 
   //Blocs
-  sl.registerFactory<RemoteArticlesBloc>(
-    ()=> RemoteArticlesBloc(sl())
-  );
+  sl.registerFactory<RemoteArticlesBloc>(() => RemoteArticlesBloc(sl()));
 
   sl.registerFactory<LocalArticleBloc>(
-    ()=> LocalArticleBloc(sl(),sl(),sl())
+      () => LocalArticleBloc(sl(), sl(), sl()));
+  sl.registerFactory<AuthCubit>(
+    () => AuthCubit(sl(), sl(), sl()),
   );
-
-
 }

@@ -12,7 +12,20 @@
           "package_name": "com.ferbuerotrebino.news_app_clean_architecture"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1071631120892-7p98o11h6kc3m13ov5mniqndpc32jl8a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ferbuerotrebino.news_app_clean_architecture",
+            "certificate_hash": "730a5df9f9b8c33a4c778a419fe697e968359159"
+          }
+        },
+        {
+          "client_id": "1071631120892-b7kel5haa9mnf5ad1bg523be9d5c330j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyASoVgSKHHq5DdHazyoWN0JsZnSX5cG1G0"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1071631120892-b7kel5haa9mnf5ad1bg523be9d5c330j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

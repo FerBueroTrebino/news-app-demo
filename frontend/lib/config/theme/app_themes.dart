@@ -19,9 +19,8 @@ ThemeData theme() {
 
 AppBarTheme appBarTheme() {
   return const AppBarTheme(
-    color: Colors.white,
     surfaceTintColor: Colors.white,
-    elevation: 0.5,
+    elevation: 8,
     centerTitle: true,
     iconTheme: IconThemeData(color: Colors.black),
     titleTextStyle: TextStyle(
