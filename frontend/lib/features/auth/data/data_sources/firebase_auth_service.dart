@@ -19,6 +19,7 @@ class FirebaseAuthService {
       uid: currentUser.uid,
       email: currentUser.email,
       displayName: currentUser.displayName,
+      imageUrl: currentUser.photoURL,
     );
   }
 
@@ -39,6 +40,7 @@ class FirebaseAuthService {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
+      imageUrl: user.photoURL,
     );
   }
 
