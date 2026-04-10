@@ -4,6 +4,8 @@ import 'package:retrofit/retrofit.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:news_app_clean_architecture/core/resources/data_state.dart';
+import 'package:news_app_clean_architecture/core/error/failure.dart';
+import 'package:news_app_clean_architecture/features/daily_news/domain/entities/article.dart';
 import 'package:news_app_clean_architecture/features/daily_news/data/repository/article_repository_impl.dart';
 
 import '../../../../helpers/test_helper.dart';
@@ -77,9 +79,9 @@ void main() {
         final result = await repository.getNewsArticles();
 
         // assert
-        expect(result, isA<DataFailed>());
-        expect(result.error, isA<DioException>());
-        expect(result.error!.response!.statusCode, 404);
+        expect(result, isA<DataFailed<List<ArticleEntity>>>());
+        expect(result.error, isA<ServerFailure>());
+        expect(result.error!.message, 'Not Found');
       },
     );
 
@@ -90,6 +92,7 @@ void main() {
         final dioException = DioException(
           requestOptions: RequestOptions(path: ''),
           error: 'Connection Error',
+          message: 'Connection Error',
         );
 
         when(() => mockNewsApiService.getNewsArticles(
@@ -102,8 +105,9 @@ void main() {
         final result = await repository.getNewsArticles();
 
         // assert
-        expect(result, isA<DataFailed>());
-        expect(result.error, dioException);
+        expect(result, isA<DataFailed<List<ArticleEntity>>>());
+        expect(result.error, isA<ConnectionFailure>());
+        expect(result.error!.message, 'Connection Error');
       },
     );
   });

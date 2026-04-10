@@ -1,7 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:news_app_clean_architecture/core/error/failure.dart';
 import 'package:news_app_clean_architecture/core/resources/data_state.dart';
 import 'package:news_app_clean_architecture/features/daily_news/domain/entities/article.dart';
 import 'package:news_app_clean_architecture/features/daily_news/domain/usecases/get_article.dart';
@@ -59,16 +59,16 @@ void main() {
     'should return a failed data state when the repository fails',
     () async {
       // arrange
-      final tError = DioException(requestOptions: RequestOptions(path: ''));
+      const tFailure = ServerFailure("An unexpected error occurred");
       when(() => mockArticleRepository.getNewsArticles())
-          .thenAnswer((_) async => DataFailed(tError));
+          .thenAnswer((_) async => const DataFailed(tFailure));
 
       // act
       final result = await getArticleUseCase();
 
       // assert
       expect(result, isA<DataFailed<List<ArticleEntity>>>());
-      expect(result.error, equals(tError));
+      expect(result.error, equals(tFailure));
 
       verify(() => mockArticleRepository.getNewsArticles()).called(1);
       verifyNoMoreInteractions(mockArticleRepository);

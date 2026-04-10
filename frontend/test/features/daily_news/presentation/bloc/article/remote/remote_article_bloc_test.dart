@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:dio/dio.dart';
+import 'package:news_app_clean_architecture/core/error/failure.dart';
 import 'package:news_app_clean_architecture/core/resources/data_state.dart';
 import 'package:news_app_clean_architecture/features/daily_news/domain/entities/article.dart';
 import 'package:news_app_clean_architecture/features/daily_news/domain/usecases/get_article.dart';
@@ -57,13 +57,13 @@ void main() {
       'emits [RemoteArticlesError] when GetArticles is added and usecase returns DataFailed',
       () async {
     // arrange
-    final dioException = DioException(requestOptions: RequestOptions(path: ''));
+    const failure = ServerFailure("An unexpected error occurred");
     when(() => mockGetArticleUseCase())
-        .thenAnswer((_) async => DataFailed(dioException));
+        .thenAnswer((_) async => DataFailed(failure));
 
     // assert later -> wait for emits
     final expected = [
-      RemoteArticlesError(dioException),
+      RemoteArticlesError(failure),
     ];
 
     expectLater(bloc.stream, emitsInOrder(expected));
