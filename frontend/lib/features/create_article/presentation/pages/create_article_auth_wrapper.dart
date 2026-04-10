@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../widgets/sign_in_screen.dart';
+import 'sign_in_screen.dart';
+import 'create_article_screen.dart';
 import '../widgets/app_bar_create_article.dart';
 import '../../../../features/auth/presentation/bloc/auth/auth_cubit.dart';
 
-class CreateArticle extends StatelessWidget {
-  const CreateArticle({super.key});
+class CreateArticleAuthWrapper extends StatelessWidget {
+  const CreateArticleAuthWrapper({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class CreateArticle extends StatelessWidget {
           }
 
           if (state is Authenticated) {
-            return const Center(child: Text('Create News'));
+            return CreateArticleScreen();
           }
 
           return SignInScreen();
