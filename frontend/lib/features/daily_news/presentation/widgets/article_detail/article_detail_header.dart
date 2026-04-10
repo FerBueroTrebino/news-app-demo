@@ -19,7 +19,7 @@ class ArticleDetailHeader extends StatelessWidget {
     final formattedDate = AppDateFormatter.formatFromIsoString(publishedAt);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 22),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

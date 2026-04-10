@@ -18,7 +18,7 @@ class ArticleDetailContent extends StatelessWidget {
     final fullText = '$descriptionText\n\n$contentText'.trim();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 18),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
       child: Text(
         fullText.isNotEmpty ? fullText : 'No content available.',
         style: theme.textTheme.bodyLarge?.copyWith(
