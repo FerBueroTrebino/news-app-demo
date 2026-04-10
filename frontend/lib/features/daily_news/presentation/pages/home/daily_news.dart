@@ -27,7 +27,7 @@ class DailyNews extends StatelessWidget {
         GestureDetector(
           onTap: () => _onShowSavedArticlesViewTapped(context),
           child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 14),
+            padding: EdgeInsets.symmetric(horizontal: 16),
             child: Icon(Icons.bookmark, color: Colors.black),
           ),
         ),
