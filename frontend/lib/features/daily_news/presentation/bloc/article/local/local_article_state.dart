@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import '../../../../domain/entities/article.dart';
 
 abstract class LocalArticlesState extends Equatable {
-  final List<ArticleEntity> ? articles;
+  final List<ArticleEntity>? articles;
 
   const LocalArticlesState({this.articles});
 
@@ -16,15 +16,16 @@ class LocalArticlesLoading extends LocalArticlesState {
 }
 
 class LocalArticlesDone extends LocalArticlesState {
-  const LocalArticlesDone(List<ArticleEntity> articles) : super(articles: articles);
+  const LocalArticlesDone(List<ArticleEntity> articles)
+      : super(articles: articles);
 }
 
 class LocalArticleSaved extends LocalArticlesDone {
-  const LocalArticleSaved(List<ArticleEntity> articles) : super(articles);
+  const LocalArticleSaved(super.articles);
 }
 
 class LocalArticleRemoved extends LocalArticlesDone {
-  const LocalArticleRemoved(List<ArticleEntity> articles) : super(articles);
+  const LocalArticleRemoved(super.articles);
 }
 
 class LocalArticlesError extends LocalArticlesState {

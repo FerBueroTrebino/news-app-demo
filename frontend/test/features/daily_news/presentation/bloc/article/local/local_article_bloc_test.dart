@@ -65,7 +65,7 @@ void main() {
     bloc.add(const GetSavedArticles());
   });
 
-  test('emits [LocalArticlesDone] when RemoveArticle is added', () async {
+  test('emits [LocalArticleRemoved] when RemoveArticle is added', () async {
     // arrange
     when(() => mockRemoveArticleUseCase(params: tArticle))
         .thenAnswer((_) async => Future.value());
@@ -73,7 +73,7 @@ void main() {
 
     // assert later
     final expected = [
-      LocalArticlesDone(tArticles),
+      LocalArticleRemoved(tArticles),
     ];
 
     expectLater(bloc.stream, emitsInOrder(expected));
@@ -82,7 +82,7 @@ void main() {
     bloc.add(const RemoveArticle(tArticle));
   });
 
-  test('emits [LocalArticlesDone] when SaveArticle is added', () async {
+  test('emits [LocalArticleSaved] when SaveArticle is added', () async {
     // arrange
     when(() => mockSaveArticleUseCase(params: tArticle))
         .thenAnswer((_) async => Future.value());
@@ -90,7 +90,7 @@ void main() {
 
     // assert later
     final expected = [
-      LocalArticlesDone(tArticles),
+      LocalArticleSaved(tArticles),
     ];
 
     expectLater(bloc.stream, emitsInOrder(expected));
