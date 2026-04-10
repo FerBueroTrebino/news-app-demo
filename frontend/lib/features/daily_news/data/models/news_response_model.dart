@@ -1,4 +1,4 @@
-import '../../../../core/models/article_model.dart';
+import 'article_model.dart';
 
 class NewsResponseModel {
   final String status;

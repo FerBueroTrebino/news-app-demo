@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/entities/article_entity.dart';
+import '../../domain/entities/article_entity.dart';
 import 'article_tile/article_content.dart';
 import 'article_tile/article_image.dart';
 import 'article_tile/article_remove_button.dart';
