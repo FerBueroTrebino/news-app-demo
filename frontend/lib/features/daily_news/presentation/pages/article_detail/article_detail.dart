@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../domain/entities/article_entity.dart';
+import '../../../../../core/entities/article_entity.dart';
 import '../../../../../core/widgets/snackbar_widget.dart';
 import '../../../../../injection_container.dart';
 import '../../bloc/article/local/local_article_bloc.dart';

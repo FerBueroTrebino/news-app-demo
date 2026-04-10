@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../widgets/article_tile.dart';
-import '../../../domain/entities/article_entity.dart';
+import '../../../../../core/entities/article_entity.dart';
 import '../../../../../core/widgets/snackbar_widget.dart';
 import 'package:news_app_clean_architecture/config/routes/routes.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_bloc.dart';

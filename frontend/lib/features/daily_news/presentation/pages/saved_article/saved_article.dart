@@ -7,7 +7,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:news_app_clean_architecture/config/routes/routes.dart';
 
 import '../../widgets/article_tile.dart';
-import '../../../domain/entities/article_entity.dart';
+import '../../../../../core/entities/article_entity.dart';
 import '../../../../../injection_container.dart';
 import '../../../../../core/widgets/snackbar_widget.dart';
 import '../../bloc/article/local/local_article_bloc.dart';

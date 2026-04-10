@@ -1,5 +1,5 @@
 import 'package:froom/froom.dart';
-import 'package:news_app_clean_architecture/features/daily_news/data/models/article_model.dart';
+import 'package:news_app_clean_architecture/core/models/article_model.dart';
 
 @dao
 abstract class ArticleDao {

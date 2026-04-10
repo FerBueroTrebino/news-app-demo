@@ -6,7 +6,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:news_app_clean_architecture/core/error/failure.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:news_app_clean_architecture/config/routes/routes.dart';
-import 'package:news_app_clean_architecture/features/daily_news/domain/entities/article_entity.dart';
+import 'package:news_app_clean_architecture/core/entities/article_entity.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_bloc.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_event.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_state.dart';
