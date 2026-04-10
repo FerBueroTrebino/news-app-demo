@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:news_app_clean_architecture/config/routes/routes.dart';
 import 'package:news_app_clean_architecture/features/daily_news/domain/entities/article.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/local/local_article_bloc.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/local/local_article_event.dart';
@@ -135,7 +136,7 @@ void main() {
         MaterialApp(
           home: const SavedArticles(),
           routes: {
-            '/ArticleDetails': (_) =>
+            AppRouteName.articleDetails.path: (_) =>
                 const Scaffold(body: Text('Article Detail Screen')),
           },
         ),
