@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../domain/entities/article.dart';
+import '../../../domain/entities/article_entity.dart';
 import 'article_detail_content.dart';
 import 'article_detail_header.dart';
 import 'article_detail_image.dart';

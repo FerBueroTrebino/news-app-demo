@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../domain/entities/article.dart';
+import '../../../../domain/entities/article_entity.dart';
 
 abstract class LocalArticlesEvent extends Equatable {
-  final ArticleEntity ? article;
+  final ArticleEntity? article;
 
   const LocalArticlesEvent({this.article});
 

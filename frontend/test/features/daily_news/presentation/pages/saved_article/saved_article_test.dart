@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:news_app_clean_architecture/config/routes/routes.dart';
-import 'package:news_app_clean_architecture/features/daily_news/domain/entities/article.dart';
+import 'package:news_app_clean_architecture/features/daily_news/domain/entities/article_entity.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/local/local_article_bloc.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/local/local_article_event.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/local/local_article_state.dart';
@@ -46,7 +46,8 @@ void main() {
 
   group('SavedArticles Widget Tests', () {
     testWidgets('Shows loading indicator for loading state', (tester) async {
-      when(() => mockLocalArticleBloc.state).thenReturn(const LocalArticlesLoading());
+      when(() => mockLocalArticleBloc.state)
+          .thenReturn(const LocalArticlesLoading());
 
       await tester.pumpWidget(const MaterialApp(home: SavedArticles()));
 

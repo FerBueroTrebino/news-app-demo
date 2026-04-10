@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../auth/presentation/bloc/auth/auth_cubit.dart';
-import '../../../../features/auth/presentation/widgets/google_sign_in_button.dart';
+import '../../../auth/presentation/widgets/google_sign_in_button.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({

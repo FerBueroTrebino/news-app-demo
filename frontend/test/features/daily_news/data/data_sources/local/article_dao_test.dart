@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:news_app_clean_architecture/features/daily_news/data/models/article.dart';
+import 'package:news_app_clean_architecture/features/daily_news/data/models/article_model.dart';
 import 'package:news_app_clean_architecture/features/daily_news/data/data_sources/local/app_database.dart';
 import 'package:news_app_clean_architecture/features/daily_news/data/data_sources/local/DAO/article_dao.dart';
 

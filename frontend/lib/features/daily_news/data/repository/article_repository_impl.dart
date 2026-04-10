@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:news_app_clean_architecture/core/constants/constants.dart';
 import 'package:news_app_clean_architecture/features/daily_news/data/data_sources/local/app_database.dart';
-import 'package:news_app_clean_architecture/features/daily_news/data/models/article.dart';
+import 'package:news_app_clean_architecture/features/daily_news/data/models/article_model.dart';
 import 'package:news_app_clean_architecture/core/error/failure.dart';
 import 'package:news_app_clean_architecture/core/resources/data_state.dart';
-import 'package:news_app_clean_architecture/features/daily_news/domain/entities/article.dart';
+import 'package:news_app_clean_architecture/features/daily_news/domain/entities/article_entity.dart';
 import 'package:news_app_clean_architecture/features/daily_news/domain/repository/article_repository.dart';
 
 import '../data_sources/remote/news_api_service.dart';

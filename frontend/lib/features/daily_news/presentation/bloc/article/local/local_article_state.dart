@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../domain/entities/article.dart';
+import '../../../../domain/entities/article_entity.dart';
 
 abstract class LocalArticlesState extends Equatable {
   final List<ArticleEntity>? articles;
