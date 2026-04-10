@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:news_app_clean_architecture/core/error/failure.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:news_app_clean_architecture/config/routes/routes.dart';
 import 'package:news_app_clean_architecture/features/daily_news/domain/entities/article.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_bloc.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_event.dart';
@@ -161,7 +162,7 @@ void main() {
             child: MaterialApp(
               home: const DailyNews(),
               routes: {
-                '/SavedArticles': (_) => const Scaffold(
+                AppRouteName.savedArticles.path: (_) => const Scaffold(
                       body: Text('Saved Articles Screen'),
                     ),
               },
@@ -188,7 +189,7 @@ void main() {
             child: MaterialApp(
               home: const DailyNews(),
               routes: {
-                '/ArticleDetails': (_) => const Scaffold(
+                AppRouteName.articleDetails.path: (_) => const Scaffold(
                       body: Text('Article Details Screen'),
                     ),
               },

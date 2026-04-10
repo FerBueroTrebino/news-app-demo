@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:news_app_clean_architecture/config/routes/routes.dart';
 
 import '../../widgets/article_tile.dart';
 import '../../../domain/entities/article.dart';
@@ -102,6 +103,10 @@ class SavedArticles extends HookWidget {
   }
 
   void _onArticlePressed(BuildContext context, ArticleEntity article) {
-    Navigator.pushNamed(context, '/ArticleDetails', arguments: article);
+    Navigator.pushNamed(
+      context,
+      AppRouteName.articleDetails.path,
+      arguments: article,
+    );
   }
 }
