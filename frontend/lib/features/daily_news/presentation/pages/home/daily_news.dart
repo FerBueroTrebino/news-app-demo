@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../widgets/article_tile.dart';
 import '../../../domain/entities/article.dart';
-import '../../../../../core/widgets/error_snackbar.dart';
+import '../../../../../core/widgets/snackbar_widget.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_bloc.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_state.dart';
 
@@ -40,8 +40,10 @@ class DailyNews extends StatelessWidget {
       listener: (context, state) {
         if (state is RemoteArticlesError && state.error != null) {
           ScaffoldMessenger.of(context).showSnackBar(
-            buildErrorSnackBar(
-                state.error?.message ?? 'An unknown error occurred.'),
+            buildSnackBar(
+              state.error?.message ?? 'An unknown error occurred.',
+              type: AppSnackBarType.error,
+            ),
           );
         }
       },
@@ -66,17 +68,18 @@ class DailyNews extends StatelessWidget {
 
   Widget _buildArticlesPage(
       BuildContext context, List<ArticleEntity> articles) {
-    List<Widget> articleWidgets = [];
-    for (var article in articles) {
-      articleWidgets.add(ArticleWidget(
-        article: article,
-        onArticlePressed: (article) => _onArticlePressed(context, article),
-      ));
-    }
-
     return Scaffold(
       appBar: _buildAppbar(context),
-      body: ListView(children: articleWidgets),
+      body: ListView.builder(
+        itemCount: articles.length,
+        itemBuilder: (context, index) {
+          final article = articles[index];
+          return ArticleWidget(
+            article: article,
+            onArticlePressed: (article) => _onArticlePressed(context, article),
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // TODO: REPLACE ROUTE WITH YOUR "ADD ARTICLE" PAGE

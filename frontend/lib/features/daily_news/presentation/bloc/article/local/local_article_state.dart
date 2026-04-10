@@ -18,3 +18,20 @@ class LocalArticlesLoading extends LocalArticlesState {
 class LocalArticlesDone extends LocalArticlesState {
   const LocalArticlesDone(List<ArticleEntity> articles) : super(articles: articles);
 }
+
+class LocalArticleSaved extends LocalArticlesDone {
+  const LocalArticleSaved(List<ArticleEntity> articles) : super(articles);
+}
+
+class LocalArticleRemoved extends LocalArticlesDone {
+  const LocalArticleRemoved(List<ArticleEntity> articles) : super(articles);
+}
+
+class LocalArticlesError extends LocalArticlesState {
+  final String message;
+
+  const LocalArticlesError(this.message);
+
+  @override
+  List<Object> get props => [message];
+}

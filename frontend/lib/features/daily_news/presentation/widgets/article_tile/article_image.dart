@@ -16,30 +16,25 @@ class ArticleTileImage extends StatelessWidget {
 
     return CachedNetworkImage(
       imageUrl: url!,
-      imageBuilder: (_, imageProvider) => Padding(
-        padding: const EdgeInsets.all(0),
-        child: ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(8),
-            topRight: Radius.circular(8),
-          ),
-          child: AspectRatio(
-            aspectRatio: 16 / 9,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
-                ),
+      imageBuilder: (_, imageProvider) => ClipRRect(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(8),
+          topRight: Radius.circular(8),
+        ),
+        child: AspectRatio(
+          aspectRatio: 16 / 9,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: imageProvider,
+                fit: BoxFit.cover,
               ),
             ),
           ),
         ),
       ),
-      progressIndicatorBuilder: (_, __, ___) => const Padding(
-        padding: EdgeInsets.all(12),
-        child: AspectRatio(aspectRatio: 16 / 9),
-      ),
+      progressIndicatorBuilder: (_, __, ___) =>
+          AspectRatio(aspectRatio: 16 / 9),
       errorWidget: (_, __, ___) => const SizedBox.shrink(),
     );
   }

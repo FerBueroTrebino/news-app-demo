@@ -23,19 +23,31 @@ class LocalArticleBloc extends Bloc<LocalArticlesEvent,LocalArticlesState> {
 
 
   void onGetSavedArticles(GetSavedArticles event,Emitter<LocalArticlesState> emit) async {
-    final articles = await _getSavedArticleUseCase();
-    emit(LocalArticlesDone(articles));
+    try {
+      final articles = await _getSavedArticleUseCase();
+      emit(LocalArticlesDone(articles));
+    } catch (_) {
+      emit(const LocalArticlesError('Failed to load saved articles.'));
+    }
   }
   
   void onRemoveArticle(RemoveArticle removeArticle,Emitter<LocalArticlesState> emit) async {
-    await _removeArticleUseCase(params: removeArticle.article);
-    final articles = await _getSavedArticleUseCase();
-    emit(LocalArticlesDone(articles));
+    try {
+      await _removeArticleUseCase(params: removeArticle.article);
+      final articles = await _getSavedArticleUseCase();
+      emit(LocalArticleRemoved(articles));
+    } catch (_) {
+      emit(const LocalArticlesError('Failed to remove article.'));
+    }
   }
 
   void onSaveArticle(SaveArticle saveArticle,Emitter<LocalArticlesState> emit) async {
-    await _saveArticleUseCase(params: saveArticle.article);
-    final articles = await _getSavedArticleUseCase();
-    emit(LocalArticlesDone(articles));
+    try {
+      await _saveArticleUseCase(params: saveArticle.article);
+      final articles = await _getSavedArticleUseCase();
+      emit(LocalArticleSaved(articles));
+    } catch (_) {
+      emit(const LocalArticlesError('Failed to save article.'));
+    }
   }
 }
