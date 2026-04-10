@@ -1,21 +1,23 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../widgets/article_tile.dart';
+import '../../../domain/entities/article.dart';
+import '../../../../../core/widgets/error_snackbar.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_bloc.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_state.dart';
 
-import '../../../domain/entities/article.dart';
-import '../../widgets/article_tile.dart';
-
 class DailyNews extends StatelessWidget {
-  const DailyNews({Key? key}) : super(key: key);
+  const DailyNews({super.key});
 
   @override
   Widget build(BuildContext context) {
     return _buildPage();
   }
 
-  _buildAppbar(BuildContext context) {
+  AppBar _buildAppbar(BuildContext context) {
     return AppBar(
       title: const Text(
         'Daily News',
@@ -33,8 +35,16 @@ class DailyNews extends StatelessWidget {
     );
   }
 
-  _buildPage() {
-    return BlocBuilder<RemoteArticlesBloc, RemoteArticlesState>(
+  BlocConsumer<RemoteArticlesBloc, RemoteArticlesState> _buildPage() {
+    return BlocConsumer<RemoteArticlesBloc, RemoteArticlesState>(
+      listener: (context, state) {
+        if (state is RemoteArticlesError && state.error != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            buildErrorSnackBar(
+                state.error?.message ?? 'An unknown error occurred.'),
+          );
+        }
+      },
       builder: (context, state) {
         if (state is RemoteArticlesLoading) {
           return Scaffold(
@@ -66,9 +76,7 @@ class DailyNews extends StatelessWidget {
 
     return Scaffold(
       appBar: _buildAppbar(context),
-      body: ListView(
-        children: articleWidgets,
-      ),
+      body: ListView(children: articleWidgets),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // TODO: REPLACE ROUTE WITH YOUR "ADD ARTICLE" PAGE
