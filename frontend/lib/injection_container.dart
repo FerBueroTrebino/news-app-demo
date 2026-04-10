@@ -1,8 +1,13 @@
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:news_app_clean_architecture/features/auth/data/data_sources/firebase_auth_service.dart';
+import 'package:news_app_clean_architecture/features/create_article/data/data_sources/firestore_authors_service.dart';
+import 'package:news_app_clean_architecture/features/create_article/data/repository/author_repository_impl.dart';
+import 'package:news_app_clean_architecture/features/create_article/domain/repository/author_repository.dart';
+import 'package:news_app_clean_architecture/features/create_article/domain/usecases/sync_author_on_login.dart';
 import 'package:news_app_clean_architecture/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:news_app_clean_architecture/features/auth/domain/repository/auth_repository.dart';
 import 'package:news_app_clean_architecture/features/auth/domain/usecases/get_current_user.dart';
@@ -31,6 +36,7 @@ Future<void> initializeDependencies() async {
   // Dio
   sl.registerSingleton<Dio>(Dio());
   sl.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);
+  sl.registerSingleton<FirebaseFirestore>(FirebaseFirestore.instance);
   final googleSignIn = GoogleSignIn.instance;
   await googleSignIn.initialize(serverClientId: googleWebClientId);
   sl.registerSingleton<GoogleSignIn>(googleSignIn);
@@ -39,6 +45,12 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<NewsApiService>(NewsApiService(sl()));
   sl.registerSingleton<FirebaseAuthService>(
     FirebaseAuthService(sl(), sl()),
+  );
+  sl.registerSingleton<FirestoreAuthorsService>(
+    FirestoreAuthorsService(sl()),
+  );
+  sl.registerSingleton<AuthorRepository>(
+    AuthorRepositoryImpl(sl()),
   );
 
   sl.registerSingleton<ArticleRepository>(ArticleRepositoryImpl(sl(), sl()));
@@ -63,6 +75,9 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<SignOutUseCase>(
     SignOutUseCase(sl()),
   );
+  sl.registerSingleton<SyncAuthorOnLoginUseCase>(
+    SyncAuthorOnLoginUseCase(sl()),
+  );
 
   //Blocs
   sl.registerFactory<RemoteArticlesBloc>(() => RemoteArticlesBloc(sl()));
@@ -70,6 +85,6 @@ Future<void> initializeDependencies() async {
   sl.registerFactory<LocalArticleBloc>(
       () => LocalArticleBloc(sl(), sl(), sl()));
   sl.registerFactory<AuthCubit>(
-    () => AuthCubit(sl(), sl(), sl()),
+    () => AuthCubit(sl(), sl(), sl(), sl()),
   );
 }
