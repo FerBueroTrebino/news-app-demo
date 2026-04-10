@@ -11,17 +11,14 @@ class FirestoreAuthorsService {
   static const String _collection = 'authors';
 
   Future<void> syncAuthorOnLogin(AuthUser authUser) async {
-    print('syncAuthorOnLogin: $authUser');
     final docRef = _firestore.collection(_collection).doc(authUser.uid);
     final snapshot = await docRef.get();
 
     if (snapshot.exists) {
-      print('author document already exists');
       await docRef.update(AuthorModel.loginUpdateFirestoreMap());
       return;
     }
 
-    print('author document does not exist');
     final model = AuthorModel.fromAuthUser(authUser);
     await docRef.set(model.toFirestoreCreateMap());
   }

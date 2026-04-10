@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:news_app_clean_architecture/injection_container.dart';
+
 import 'sign_in_screen.dart';
 import 'create_article_screen.dart';
+import '../bloc/create_article/create_article_cubit.dart';
 import '../widgets/app_bar_create_article.dart';
 import '../../../../features/auth/presentation/bloc/auth/auth_cubit.dart';
 
@@ -28,7 +31,10 @@ class CreateArticleAuthWrapper extends StatelessWidget {
           }
 
           if (state is Authenticated) {
-            return CreateArticleScreen();
+            return BlocProvider(
+              create: (_) => sl<CreateArticleCubit>(),
+              child: const CreateArticleScreen(),
+            );
           }
 
           return SignInScreen();

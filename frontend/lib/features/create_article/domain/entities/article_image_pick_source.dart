@@ -1,0 +1,4 @@
+enum ArticleImagePickSource {
+  gallery,
+  camera,
+}

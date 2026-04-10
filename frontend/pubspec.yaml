@@ -48,6 +48,8 @@ dependencies:
   #chached image
   cached_network_image: ^3.2.0
 
+  image_picker: ^1.1.2
+
   #Launcher Icon generator
   flutter_launcher_icons: ^0.14.4
 

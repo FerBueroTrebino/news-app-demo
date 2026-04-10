@@ -5,8 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:news_app_clean_architecture/features/auth/data/data_sources/firebase_auth_service.dart';
 import 'package:news_app_clean_architecture/features/create_article/data/data_sources/firestore_authors_service.dart';
+import 'package:news_app_clean_architecture/features/create_article/data/repository/article_image_picker_repository_impl.dart';
 import 'package:news_app_clean_architecture/features/create_article/data/repository/author_repository_impl.dart';
+import 'package:news_app_clean_architecture/features/create_article/domain/repository/article_image_picker_repository.dart';
 import 'package:news_app_clean_architecture/features/create_article/domain/repository/author_repository.dart';
+import 'package:news_app_clean_architecture/features/create_article/domain/usecases/pick_article_image.dart';
 import 'package:news_app_clean_architecture/features/create_article/domain/usecases/sync_author_on_login.dart';
 import 'package:news_app_clean_architecture/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:news_app_clean_architecture/features/auth/domain/repository/auth_repository.dart';
@@ -14,6 +17,7 @@ import 'package:news_app_clean_architecture/features/auth/domain/usecases/get_cu
 import 'package:news_app_clean_architecture/features/auth/domain/usecases/sign_in_with_google.dart';
 import 'package:news_app_clean_architecture/features/auth/domain/usecases/sign_out.dart';
 import 'package:news_app_clean_architecture/features/auth/presentation/bloc/auth/auth_cubit.dart';
+import 'package:news_app_clean_architecture/features/create_article/presentation/bloc/create_article/create_article_cubit.dart';
 import 'package:news_app_clean_architecture/core/constants/constants.dart';
 import 'package:news_app_clean_architecture/features/daily_news/data/data_sources/remote/news_api_service.dart';
 import 'package:news_app_clean_architecture/features/daily_news/data/repository/article_repository_impl.dart';
@@ -52,6 +56,9 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<AuthorRepository>(
     AuthorRepositoryImpl(sl()),
   );
+  sl.registerSingleton<ArticleImagePickerRepository>(
+    ArticleImagePickerRepositoryImpl(),
+  );
 
   sl.registerSingleton<ArticleRepository>(ArticleRepositoryImpl(sl(), sl()));
   sl.registerSingleton<AuthRepository>(
@@ -78,6 +85,9 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<SyncAuthorOnLoginUseCase>(
     SyncAuthorOnLoginUseCase(sl()),
   );
+  sl.registerSingleton<PickArticleImageUseCase>(
+    PickArticleImageUseCase(sl()),
+  );
 
   //Blocs
   sl.registerFactory<RemoteArticlesBloc>(() => RemoteArticlesBloc(sl()));
@@ -86,5 +96,8 @@ Future<void> initializeDependencies() async {
       () => LocalArticleBloc(sl(), sl(), sl()));
   sl.registerFactory<AuthCubit>(
     () => AuthCubit(sl(), sl(), sl(), sl()),
+  );
+  sl.registerFactory<CreateArticleCubit>(
+    () => CreateArticleCubit(sl()),
   );
 }
