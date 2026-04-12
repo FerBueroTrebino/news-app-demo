@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+
+import '../../../../../core/widgets/cached_network_image_with_loader.dart';
 
 class ArticleTileImage extends StatelessWidget {
   final String? url;
 
-  const ArticleTileImage({super.key, this.url});
+  final BaseCacheManager? cacheManager;
+
+  const ArticleTileImage({super.key, this.url, this.cacheManager});
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +17,9 @@ class ArticleTileImage extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    return CachedNetworkImage(
+    return CachedNetworkImageWithLoader(
       imageUrl: url!,
+      cacheManager: cacheManager,
       imageBuilder: (_, imageProvider) => ClipRRect(
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(8),
@@ -33,8 +37,13 @@ class ArticleTileImage extends StatelessWidget {
           ),
         ),
       ),
-      progressIndicatorBuilder: (_, __, ___) =>
-          AspectRatio(aspectRatio: 16 / 9),
+      wrapProgress: (context, indicator) => AspectRatio(
+        aspectRatio: 16 / 9,
+        child: ColoredBox(
+          color: Theme.of(context).colorScheme.surfaceContainerHighest,
+          child: Center(child: indicator),
+        ),
+      ),
       errorWidget: (_, __, ___) => const SizedBox.shrink(),
     );
   }
