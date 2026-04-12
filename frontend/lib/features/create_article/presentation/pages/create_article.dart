@@ -110,12 +110,13 @@ class _CreateArticleState extends State<CreateArticle> {
           final cubit = context.read<CreateArticleCubit>();
           cubit.acknowledgeSubmissionResult();
           if (status == 'draft') {
-            Navigator.of(context).pushReplacementNamed(
+            Navigator.of(context).popAndPushNamed(
               AppRouteName.authorProfile.path,
             );
           } else if (status == 'published') {
-            Navigator.of(context).pushReplacementNamed(
+            Navigator.of(context).pushNamedAndRemoveUntil(
               AppRouteName.home.path,
+              (route) => false,
             );
           }
         } else if (state.submissionStatus ==
