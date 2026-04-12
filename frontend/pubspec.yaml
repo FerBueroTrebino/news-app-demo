@@ -53,6 +53,7 @@ dependencies:
 
   #Launcher Icon generator
   flutter_launcher_icons: ^0.14.4
+  timezone: ^0.10.1
 
 dev_dependencies:
   flutter_test:

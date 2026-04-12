@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'injection_container.dart';
 import 'config/theme/app_themes.dart';
@@ -14,6 +15,7 @@ import 'package:news_app_clean_architecture/features/daily_news/presentation/blo
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await initializeDateFormatting('es');
   await initializeDependencies();
 
   runApp(const MyApp());

@@ -1,11 +1,23 @@
 import 'package:intl/intl.dart';
+import 'package:timezone/data/latest.dart' as tzdata;
+import 'package:timezone/timezone.dart' as tz;
 
 class AppDateFormatter {
   const AppDateFormatter();
 
+  static bool _timeZonesInitialized = false;
+  static tz.Location? _madrid;
+
+  static void _ensureSpainTimeZone() {
+    if (_timeZonesInitialized) return;
+    tzdata.initializeTimeZones();
+    _madrid = tz.getLocation('Europe/Madrid');
+    _timeZonesInitialized = true;
+  }
+
   static String formatFromIsoString(
     String? value, {
-    String pattern = 'dd/MM/yyyy',
+    String pattern = 'dd/MM/yyyy HH:mm',
     String locale = 'es',
     String fallback = '',
   }) {
@@ -14,8 +26,21 @@ class AppDateFormatter {
     }
 
     try {
-      final dateTime = DateTime.parse(value);
-      return DateFormat(pattern, locale).format(dateTime);
+      _ensureSpainTimeZone();
+      final instant = DateTime.parse(value);
+      final inMadrid = tz.TZDateTime.from(instant, _madrid!);
+      // Plain DateTime so intl reads calendar fields directly (Madrid wall time).
+      final madridWall = DateTime(
+        inMadrid.year,
+        inMadrid.month,
+        inMadrid.day,
+        inMadrid.hour,
+        inMadrid.minute,
+        inMadrid.second,
+        inMadrid.millisecond,
+        inMadrid.microsecond,
+      );
+      return DateFormat(pattern, locale).format(madridWall);
     } catch (_) {
       // Normalize raw ISO-like strings to avoid leaking "T" and trailing "Z".
       return _normalizeRawDateTime(value);
@@ -41,6 +66,9 @@ class AppDateFormatter {
       final hours = timeSegments[0];
       final minutes = timeSegments[1];
       return '$datePart $hours:$minutes';
+    }
+    if (timeSegments.isNotEmpty) {
+      return '$datePart ${timeSegments[0]}:00';
     }
 
     return withSpace;
