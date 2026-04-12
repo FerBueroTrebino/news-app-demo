@@ -185,7 +185,7 @@ void main() {
       expect(find.text('Title'), findsOneWidget);
       expect(find.text('Category'), findsOneWidget);
       expect(find.text('Choose from library'), findsOneWidget);
-      expect(find.text('Description (summary for lists)'), findsOneWidget);
+      expect(find.text('Summary'), findsOneWidget);
       expect(find.text('Article body'), findsOneWidget);
       expect(find.text('Status'), findsOneWidget);
       expect(find.text('Create article'), findsOneWidget);

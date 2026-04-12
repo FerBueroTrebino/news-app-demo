@@ -67,7 +67,7 @@ void main() {
       );
 
       expect(
-        find.text('Description (summary for lists)'),
+        find.text('Summary'),
         findsOneWidget,
       );
       expect(formKey.currentState!.validate(), isFalse);
@@ -143,8 +143,7 @@ void main() {
                 setState = ss;
                 return CreateArticlePublishModeField(
                   selected: selected,
-                  onSelectionChanged: (mode) =>
-                      setState(() => selected = mode),
+                  onSelectionChanged: (mode) => setState(() => selected = mode),
                 );
               },
             ),
