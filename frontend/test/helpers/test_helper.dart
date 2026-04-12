@@ -12,9 +12,13 @@ import 'package:news_app_clean_architecture/features/daily_news/data/data_source
 import 'package:news_app_clean_architecture/features/daily_news/data/models/article_model.dart';
 import 'package:news_app_clean_architecture/features/daily_news/data/models/news_response_model.dart';
 import 'package:news_app_clean_architecture/features/daily_news/domain/entities/article_entity.dart';
+import 'package:news_app_clean_architecture/features/create_article/domain/usecases/get_articles_news_list.dart';
 import 'package:news_app_clean_architecture/features/daily_news/domain/repository/article_repository.dart';
 
 class MockArticleRepository extends Mock implements ArticleRepository {}
+
+class MockGetArticlesNewsListUseCase extends Mock
+    implements GetArticlesNewsListUseCase {}
 
 class MockAuthRepository extends Mock implements AuthRepository {}
 
