@@ -28,9 +28,10 @@ class ArticleDetailContent extends StatelessWidget {
           if (hasDescription)
             Text(
               descriptionText,
-              style: theme.textTheme.bodyLarge?.copyWith(
+              style: theme.textTheme.titleMedium?.copyWith(
                 color: theme.colorScheme.onSurface,
                 height: 1.45,
+                fontWeight: FontWeight.w700,
               ),
             ),
           if (hasDescription && hasContent) const SizedBox(height: 18),
