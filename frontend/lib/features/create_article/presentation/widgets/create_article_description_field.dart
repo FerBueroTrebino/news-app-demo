@@ -15,7 +15,7 @@ class CreateArticleDescriptionField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       decoration: const InputDecoration(
-        labelText: 'Description (summary for lists)',
+        labelText: 'Summary',
         alignLabelWithHint: true,
         border: OutlineInputBorder(),
       ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/widgets/article_description_display.dart';
+
 class ArticleDetailContent extends StatelessWidget {
   final String? description;
   final String? content;
@@ -15,15 +17,32 @@ class ArticleDetailContent extends StatelessWidget {
     final theme = Theme.of(context);
     final descriptionText = description?.trim() ?? '';
     final contentText = content?.trim() ?? '';
-    final fullText = '$descriptionText\n\n$contentText'.trim();
+    final hasDescription = descriptionText.isNotEmpty;
+    final hasContent = contentText.isNotEmpty;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-      child: Text(
-        fullText.isNotEmpty ? fullText : 'No content available.',
-        style: theme.textTheme.bodyLarge?.copyWith(
-          color: theme.colorScheme.onSurface,
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (hasDescription)
+            Text(
+              descriptionText,
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: theme.colorScheme.onSurface,
+                height: 1.45,
+              ),
+            ),
+          if (hasDescription && hasContent) const SizedBox(height: 18),
+          if (hasContent) ArticleDescriptionFormatted(raw: contentText),
+          if (!hasDescription && !hasContent)
+            Text(
+              'No content available.',
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: theme.colorScheme.onSurface,
+              ),
+            ),
+        ],
       ),
     );
   }
