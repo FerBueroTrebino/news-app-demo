@@ -98,6 +98,7 @@ The main feed was extended to display articles from two sources simultaneously: 
 Integrated an image caching package to store article images locally after the first load. This reduces redundant network requests, improves scroll performance in the feed, and lowers data consumption for the user.
 
 #### 2. Prototypes Created:
+
 ##### 1. Bottom Navigation Bar
 Instead of a Floating Action Button to navigate to article creation, a Bottom Navigation Bar would replace it, providing three main destinations:
 
@@ -107,14 +108,13 @@ Profile — the author's profile page
 
 This structure creates a more intuitive and scalable navigation pattern, and avoids hiding key actions behind a single FAB.
 
-##### 2. Bottom Navigation Bar
-##### 3. Category Drawer Menu
+##### 2. Category Drawer Menu
 A drawer-style side menu accessible from the main feed's App Bar. When opened, it displays the available article categories. Tapping a category filters the feed to show only articles from that category, following the pattern observed in the competitive benchmarking of the New York Times and The Guardian.
 
-##### 4. Feed Search
+##### 3. Feed Search
 A search bar integrated into the drawer menu (see P2), allowing users to search across all articles in the feed — both from the News API and from Firestore-authored content.
 
-##### 5. Article Detail — Author Info & Profile Page
+##### 4. Article Detail — Author Info & Profile Page
 When an article was written by a registered author, the article detail screen displays the author's name and profile image below the article body. Tapping on the author navigates to a dedicated Author Detail Page showing:
 
 Profile photo
@@ -124,10 +124,11 @@ A list of the author's published articles
 
 This directly implements the author profile feature proposed in the Benchmarking & Functional Scope Definition document.
 
-##### 6. Related Articles
+##### 5. Related Articles
 At the bottom of each article detail screen, a horizontal scrollable list of articles from the same category would be shown, helping users discover related content and increasing session depth. This feature was identified during the analysis of The Guardian.
 
 #### 3. How Can You Improve This:
+
 ##### 1. My Articles — Full Article Management
 The current My Articles page only displays the list of articles (drafts and published). The planned improvements include:
 
