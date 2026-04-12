@@ -1,8 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:news_app_clean_architecture/features/auth/domain/entities/auth_user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../domain/entities/author_entity.dart';
+import '../../../../features/auth/domain/entities/auth_user.dart';
 
 class AuthorModel extends Equatable {
   const AuthorModel({

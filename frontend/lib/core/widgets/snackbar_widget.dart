@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum AppSnackBarType { error, success, message }
+enum AppSnackBarType { error, success, alert, message }
 
 SnackBar buildSnackBar(
   String message, {
@@ -9,6 +9,7 @@ SnackBar buildSnackBar(
   final backgroundColor = switch (type) {
     AppSnackBarType.error => Colors.red,
     AppSnackBarType.success => Colors.green,
+    AppSnackBarType.alert => Colors.orange,
     AppSnackBarType.message => Colors.blueGrey,
   };
 

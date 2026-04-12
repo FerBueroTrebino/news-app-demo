@@ -1,0 +1,1 @@
+enum ArticlePublishMode { draft, publish }

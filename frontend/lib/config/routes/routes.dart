@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../features/create_article/presentation/pages/author_profile.dart';
 import '../../features/daily_news/domain/entities/article_entity.dart';
 import '../../features/daily_news/presentation/pages/home/daily_news.dart';
 import '../../features/create_article/presentation/pages/create_article_auth_wrapper.dart';
@@ -10,7 +11,8 @@ enum AppRouteName {
   home,
   articleDetails,
   savedArticles,
-  createArticle;
+  createArticle,
+  authorProfile;
 
   String get path {
     switch (this) {
@@ -22,6 +24,8 @@ enum AppRouteName {
         return '/SavedArticles';
       case AppRouteName.createArticle:
         return '/CreateArticle';
+      case AppRouteName.authorProfile:
+        return '/AuthorProfile';
     }
   }
 
@@ -48,6 +52,8 @@ class AppRoutes {
 
       case AppRouteName.createArticle:
         return _materialRoute(const CreateArticleAuthWrapper());
+      case AppRouteName.authorProfile:
+        return _materialRoute(const AuthorProfile());
     }
   }
 

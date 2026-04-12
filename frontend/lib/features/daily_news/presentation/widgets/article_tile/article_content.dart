@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:news_app_clean_architecture/core/utils/date_formatter.dart';
+
+import '../../../../../core/widgets/date_chip.dart';
+import '../../../../../core/utils/date_formatter.dart';
 
 class ArticleTileContent extends StatelessWidget {
   final String? title;
@@ -47,45 +49,9 @@ class ArticleTileContent extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 6),
-          _MetaChip(
-            label: formattedDate,
-          ),
+          DateChip(label: formattedDate),
         ],
       ),
-    );
-  }
-}
-
-class _MetaChip extends StatelessWidget {
-  final String label;
-
-  const _MetaChip({required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          Icons.schedule_rounded,
-          size: 12,
-          color: theme.colorScheme.primary,
-        ),
-        const SizedBox(width: 6),
-        MediaQuery.withClampedTextScaling(
-          maxScaleFactor: 1.2,
-          child: Text(
-            label,
-            style: theme.textTheme.labelMedium?.copyWith(
-              color: theme.colorScheme.primary,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

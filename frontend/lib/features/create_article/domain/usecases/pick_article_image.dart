@@ -1,7 +1,6 @@
-import 'package:news_app_clean_architecture/core/usecase/usecase.dart';
-
-import '../entities/article_image_pick_source.dart';
 import '../entities/picked_article_image.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../entities/article_image_pick_source.dart';
 import '../repository/article_image_picker_repository.dart';
 
 class PickArticleImageParams {
