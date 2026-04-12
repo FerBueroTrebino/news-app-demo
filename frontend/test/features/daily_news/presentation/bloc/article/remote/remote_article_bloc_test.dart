@@ -1,9 +1,11 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter_test/flutter_test.dart';
+
 import 'package:news_app_clean_architecture/core/error/failure.dart';
 import 'package:news_app_clean_architecture/core/resources/data_state.dart';
-import 'package:news_app_clean_architecture/features/daily_news/domain/entities/article_entity.dart';
 import 'package:news_app_clean_architecture/features/daily_news/domain/usecases/get_article.dart';
+import 'package:news_app_clean_architecture/features/daily_news/domain/entities/article_entity.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_bloc.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_event.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_state.dart';
@@ -40,7 +42,7 @@ void main() {
       () async {
     // arrange
     when(() => mockGetArticleUseCase())
-        .thenAnswer((_) async => DataSuccess(tArticles));
+        .thenAnswer((_) => Stream.value(DataSuccess(tArticles)));
 
     // assert later -> wait for emits
     final expected = [
@@ -59,7 +61,7 @@ void main() {
     // arrange
     const failure = ServerFailure("An unexpected error occurred");
     when(() => mockGetArticleUseCase())
-        .thenAnswer((_) async => DataFailed(failure));
+        .thenAnswer((_) => Stream.value(DataFailed(failure)));
 
     // assert later -> wait for emits
     final expected = [
@@ -71,4 +73,20 @@ void main() {
     // act
     bloc.add(const GetArticles());
   });
+
+  blocTest<RemoteArticlesBloc, RemoteArticlesState>(
+    'does not emit when use case returns success with an empty article list',
+    build: () {
+      when(() => mockGetArticleUseCase()).thenAnswer(
+        (_) => Stream.value(const DataSuccess(<ArticleEntity>[])),
+      );
+
+      return RemoteArticlesBloc(mockGetArticleUseCase);
+    },
+    act: (bloc) => bloc.add(const GetArticles()),
+    expect: () => const <RemoteArticlesState>[],
+    verify: (bloc) {
+      expect(bloc.state, const RemoteArticlesLoading());
+    },
+  );
 }
