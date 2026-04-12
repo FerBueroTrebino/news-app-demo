@@ -54,6 +54,24 @@ I made a deliberate change to the article feed layout by placing the image above
 
 ### 5. Proof of the project
 
+####  [Video](https://drive.google.com/file/d/1qcFK1tVs0yi82trkY8SyMIe7d_L7X1nc/view?usp=sharing)
+
+#### Pantallas
+| Home | Detail Article | Create Article 1 | Create Article 2 |
+|--------|------|----------|--------|
+| <img src="imagenes_demo/1000043746.png" width="240"> | <img src="imagenes_demo/1000043747.png" width="240"> | <img src="imagenes_demo/1000043748.png" width="240"> | <img src="imagenes_demo/1000043749.png" width="240"> |
+
+| My Articles | Saved Articles | 
+|--------|------|
+| <img src="imagenes_demo/1000043750.png" width="240"> | <img src="imagenes_demo/1000043751.png" width="240"> |
+
+#### Pantallas Tamaño de fuente muy grande
+| Home | Detail Article | Create Article 1 | My Articles |
+|--------|------|----------|--------|
+| <img src="imagenes_demo/1000043741.png" width="240"> | <img src="imagenes_demo/1000043742.png" width="240"> | <img src="imagenes_demo/1000043743.png" width="240"> | <img src="imagenes_demo/1000043744.png" width="240"> |
+
+
+
 ### 6. Overdelivery
 
 #### Initial analysis of tasks and potential improvements: 
