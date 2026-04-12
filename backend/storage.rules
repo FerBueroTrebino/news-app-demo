@@ -2,6 +2,30 @@ rules_version = '2';
 
 service firebase.storage {
   match /b/{bucket}/o {
-    //TODO: WRITE ANY NECESSARY STORAGE RULES HERE
+    // Mirrors frontend ArticleThumbnailStorageImpl.objectPathForArticle:
+    //   'media/articles/$articleUid/thumbnail.jpg'
+    // and SettableMetadata(contentType: 'image/jpeg').
+
+    function isArticleUid(articleUid) {
+      return articleUid is string
+        && articleUid.matches('^[-_A-Za-z0-9]{10,128}$');
     }
+
+    function isJpegThumbnailUpload() {
+      return request.auth != null
+        && request.resource != null
+        && request.resource.contentType == 'image/jpeg'
+        && request.resource.size > 0
+        && request.resource.size <= 5 * 1024 * 1024;
+    }
+
+    match /media/articles/{articleUid}/thumbnail.jpg {
+      // Download URLs are used in the public feed; objects must be world-readable.
+      allow read: if true;
+
+      allow create, update: if isArticleUid(articleUid) && isJpegThumbnailUpload();
+
+      allow delete: if false;
+    }
+  }
 }
