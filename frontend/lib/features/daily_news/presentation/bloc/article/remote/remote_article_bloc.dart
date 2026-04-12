@@ -15,15 +15,15 @@ class RemoteArticlesBloc
 
   void onGetArticles(
       GetArticles event, Emitter<RemoteArticlesState> emit) async {
-    final dataState = await _getArticleUseCase();
-
-    switch (dataState) {
-      case DataSuccess(:final data) when data != null && data.isNotEmpty:
-        emit(RemoteArticlesDone(data));
-      case DataFailed(:final error) when error != null:
-        emit(RemoteArticlesError(error));
-      default:
-        break;
+    await for (final dataState in _getArticleUseCase()) {
+      switch (dataState) {
+        case DataSuccess(:final data) when data != null && data.isNotEmpty:
+          emit(RemoteArticlesDone(data));
+        case DataFailed(:final error) when error != null:
+          emit(RemoteArticlesError(error));
+        default:
+          break;
+      }
     }
   }
 }
