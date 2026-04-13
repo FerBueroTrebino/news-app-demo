@@ -2,6 +2,13 @@ const String newsAPIBaseURL = 'https://newsapi.org/v2';
 const String newsAPIKey = 'ff957763c54c44d8b00e5e082bc76cb0';
 const String countryQuery = 'us';
 const String categoryQuery = 'general';
+
+/// IANA timezone used when formatting article published times for display.
+const String articleDisplayTimeZone = 'America/New_York';
+
+/// Locale and pattern for [AppDateFormatter] (US English, month/day/year, 12h clock).
+const String articleDisplayLocale = 'en_US';
+const String articleDisplayDatePattern = 'MM/dd/yyyy hh:mm a';
 const String googleWebClientId =
     '1071631120892-b7kel5haa9mnf5ad1bg523be9d5c330j.apps.googleusercontent.com';
 const String kDefaultImage =

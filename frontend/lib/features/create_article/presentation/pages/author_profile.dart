@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../core/constants/constants.dart';
 import '../widgets/author_article_tile.dart';
 import '../../../../../injection_container.dart';
 import '../bloc/author_profile/author_profile_cubit.dart';
@@ -39,7 +40,8 @@ class _AuthorArticlesBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dateFormat = DateFormat.yMMMd();
+    final dateFormat =
+        DateFormat(articleDisplayDatePattern, articleDisplayLocale);
 
     return Scaffold(
       appBar: AppBar(

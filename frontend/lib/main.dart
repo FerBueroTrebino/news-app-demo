@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 
+import 'core/constants/constants.dart';
 import 'injection_container.dart';
 import 'config/theme/app_themes.dart';
 import 'package:news_app_clean_architecture/config/routes/routes.dart';
@@ -15,7 +18,8 @@ import 'package:news_app_clean_architecture/features/daily_news/presentation/blo
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await initializeDateFormatting('es');
+  await initializeDateFormatting(articleDisplayLocale);
+  Intl.defaultLocale = articleDisplayLocale;
   await initializeDependencies();
 
   runApp(const MyApp());
@@ -37,6 +41,13 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        locale: const Locale('en', 'US'),
+        supportedLocales: const [Locale('en', 'US')],
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
         theme: theme(),
         onGenerateRoute: AppRoutes.onGenerateRoutes,
         home: const DailyNews(),

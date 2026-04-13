@@ -2,12 +2,14 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:news_app_clean_architecture/core/constants/constants.dart';
 import 'package:news_app_clean_architecture/core/widgets/date_chip.dart';
 import 'package:news_app_clean_architecture/features/create_article/domain/entities/article_news_entity.dart';
 import 'package:news_app_clean_architecture/features/create_article/presentation/widgets/author_article_tile.dart';
 
 void main() {
-  final dateFormat = DateFormat.yMMMd();
+  final dateFormat =
+      DateFormat(articleDisplayDatePattern, articleDisplayLocale);
 
   ArticleNewsEntity buildArticle({
     String title = 'My story',
