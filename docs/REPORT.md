@@ -54,7 +54,7 @@ I made a deliberate change to the article feed layout by placing the image above
 
 ### 5. Proof of the project
 
-####  [Video](https://drive.google.com/file/d/1qcFK1tVs0yi82trkY8SyMIe7d_L7X1nc/view?usp=sharing)
+####  [Video](https://drive.google.com/file/d/1gE_RxKxQIxAIelD1UJPSYwdBnVBtSaKT/view?usp=sharing)
 
 #### Pantallas
 | Home | Detail Article | Create Article 1 | Create Article 2 |
@@ -63,7 +63,7 @@ I made a deliberate change to the article feed layout by placing the image above
 
 | My Articles | Saved Articles | 
 |--------|------|
-| <img src="imagenes_demo/1000043750.png" width="240"> | <img src="imagenes_demo/1000043751.png" width="240"> |
+| <img src="imagenes_demo/1000043750.png" width="225"> | <img src="imagenes_demo/1000043751.png" width="225"> |
 
 #### Pantallas Tamaño de fuente muy grande
 | Home | Detail Article | Create Article 1 | My Articles |
