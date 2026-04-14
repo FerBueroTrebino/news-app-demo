@@ -111,7 +111,7 @@ Authors can create articles through a dedicated creation screen, with the follow
 - **Post-creation navigation** — if saved as a draft, the user is redirected to *My Articles*; if published, they are redirected to the home feed where the new article is immediately visible
 - **App Bar menu** — the creation screen provides quick access to *logout* and to the *My Articles* page
 
-### 6. My Articles Page — Author Article Management
+##### 6. My Articles Page — Author Article Management
 A dedicated page where authors can view and fully manage all of their created articles. Each article displays a clear indication of whether it is published or in draft status. Authors can perform the following actions:
 
 - **Edit article** — modify the title, body content, cover image, and category of any existing article through a dedicated edit screen, pre-populated with the article's current data
