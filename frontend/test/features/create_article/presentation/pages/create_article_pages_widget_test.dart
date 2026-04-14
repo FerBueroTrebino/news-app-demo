@@ -41,7 +41,7 @@ void main() {
     mockPost = MockPostArticleNewsUseCase();
     when(() => mockAuthCubit.close()).thenAnswer((_) async {});
     when(() => mockAuthCubit.stream).thenAnswer(
-      (_) => Stream<AuthState>.value(const Unauthenticated()),
+      (_) => const Stream<AuthState>.empty(),
     );
   });
 
@@ -62,11 +62,11 @@ void main() {
       );
 
       expect(find.text('Create News'), findsOneWidget);
-      expect(find.byIcon(Icons.person), findsNothing);
-      expect(find.byIcon(Icons.logout), findsNothing);
+      expect(find.byIcon(Icons.menu), findsNothing);
     });
 
-    testWidgets('shows profile and logout when authenticated', (tester) async {
+    testWidgets('shows menu entries and signs out when authenticated',
+        (tester) async {
       when(() => mockAuthCubit.state).thenReturn(Authenticated(testUser));
       when(() => mockAuthCubit.signOut()).thenAnswer((_) async {});
 
@@ -81,16 +81,23 @@ void main() {
         ),
       );
 
+      expect(find.byIcon(Icons.menu), findsOneWidget);
+
+      await tester.tap(find.byIcon(Icons.menu));
+      await tester.pumpAndSettle();
+
+      expect(find.text('My Articles'), findsOneWidget);
+      expect(find.text('Log Out'), findsOneWidget);
       expect(find.byIcon(Icons.person), findsOneWidget);
       expect(find.byIcon(Icons.logout), findsOneWidget);
 
-      await tester.tap(find.byIcon(Icons.logout));
-      await tester.pump();
+      await tester.tap(find.text('Log Out'));
+      await tester.pumpAndSettle();
 
       verify(() => mockAuthCubit.signOut()).called(1);
     });
 
-    testWidgets('navigates to author profile when person icon is tapped',
+    testWidgets('navigates to author profile when My Articles is tapped',
         (tester) async {
       when(() => mockAuthCubit.state).thenReturn(Authenticated(testUser));
 
@@ -110,7 +117,10 @@ void main() {
         ),
       );
 
-      await tester.tap(find.byIcon(Icons.person));
+      await tester.tap(find.byIcon(Icons.menu));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('My Articles'));
       await tester.pumpAndSettle();
 
       expect(find.text('Author profile route'), findsOneWidget);

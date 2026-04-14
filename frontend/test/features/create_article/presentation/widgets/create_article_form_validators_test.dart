@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:news_app_clean_architecture/features/create_article/presentation/widgets/create_article_form_validators.dart';
+import 'package:news_app_clean_architecture/features/create_article/presentation/models/create_article_form_validators.dart';
 
 void main() {
   group('CreateArticleFormValidators.title', () {

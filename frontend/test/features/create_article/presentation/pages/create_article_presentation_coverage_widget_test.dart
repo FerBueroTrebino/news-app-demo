@@ -12,9 +12,11 @@ import 'package:news_app_clean_architecture/config/routes/routes.dart';
 import 'package:news_app_clean_architecture/features/auth/domain/entities/auth_user.dart';
 import 'package:news_app_clean_architecture/features/auth/presentation/bloc/auth/auth_cubit.dart';
 import 'package:news_app_clean_architecture/features/create_article/domain/entities/article_news_entity.dart';
+import 'package:news_app_clean_architecture/features/create_article/domain/usecases/delete_article_news.dart';
 import 'package:news_app_clean_architecture/features/create_article/domain/usecases/get_articles_news_of_author.dart';
 import 'package:news_app_clean_architecture/features/create_article/domain/usecases/pick_article_image.dart';
 import 'package:news_app_clean_architecture/features/create_article/domain/usecases/post_article_news.dart';
+import 'package:news_app_clean_architecture/features/create_article/domain/usecases/update_article_news.dart';
 import 'package:news_app_clean_architecture/features/create_article/presentation/bloc/author_profile/author_profile_cubit.dart';
 import 'package:news_app_clean_architecture/features/create_article/presentation/bloc/create_article/create_article_cubit.dart';
 import 'package:news_app_clean_architecture/features/create_article/presentation/pages/author_profile.dart';
@@ -32,6 +34,8 @@ class MockPostArticleNewsUseCase extends Mock
 
 class MockGetArticlesNewsOfAuthorUseCase extends Mock
     implements GetArticlesNewsOfAuthorUseCase {}
+class MockUpdateArticleNewsUseCase extends Mock implements UpdateArticleNewsUseCase {}
+class MockDeleteArticleNewsUseCase extends Mock implements DeleteArticleNewsUseCase {}
 
 class TestCreateArticleCubit extends CreateArticleCubit {
   TestCreateArticleCubit(super.pick, super.post);
@@ -49,6 +53,8 @@ void main() {
   late MockPickArticleImageUseCase mockPick;
   late MockPostArticleNewsUseCase mockPost;
   late MockGetArticlesNewsOfAuthorUseCase mockGetArticles;
+  late MockUpdateArticleNewsUseCase mockUpdateArticle;
+  late MockDeleteArticleNewsUseCase mockDeleteArticle;
 
   final testUser = AuthUser(
     uid: 'user-1',
@@ -80,7 +86,11 @@ void main() {
       () => CreateArticleCubit(mockPick, mockPost),
     );
     inject.sl.registerFactory<AuthorProfileCubit>(
-      () => AuthorProfileCubit(mockGetArticles),
+      () => AuthorProfileCubit(
+        mockGetArticles,
+        mockUpdateArticle,
+        mockDeleteArticle,
+      ),
     );
   }
 
@@ -89,6 +99,8 @@ void main() {
     mockPick = MockPickArticleImageUseCase();
     mockPost = MockPostArticleNewsUseCase();
     mockGetArticles = MockGetArticlesNewsOfAuthorUseCase();
+    mockUpdateArticle = MockUpdateArticleNewsUseCase();
+    mockDeleteArticle = MockDeleteArticleNewsUseCase();
     when(() => mockAuthCubit.close()).thenAnswer((_) async {});
     when(() => mockAuthCubit.stream).thenAnswer(
       (_) => Stream<AuthState>.value(const Unauthenticated()),

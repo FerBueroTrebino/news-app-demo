@@ -4,15 +4,21 @@ import 'package:mocktail/mocktail.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:news_app_clean_architecture/features/create_article/domain/entities/article_news_entity.dart';
+import 'package:news_app_clean_architecture/features/create_article/domain/usecases/delete_article_news.dart';
 import 'package:news_app_clean_architecture/features/create_article/domain/usecases/get_articles_news_of_author.dart';
+import 'package:news_app_clean_architecture/features/create_article/domain/usecases/update_article_news.dart';
 import 'package:news_app_clean_architecture/features/create_article/presentation/bloc/author_profile/author_profile_cubit.dart';
 
 class MockGetArticlesNewsOfAuthorUseCase extends Mock
     implements GetArticlesNewsOfAuthorUseCase {}
+class MockUpdateArticleNewsUseCase extends Mock implements UpdateArticleNewsUseCase {}
+class MockDeleteArticleNewsUseCase extends Mock implements DeleteArticleNewsUseCase {}
 
 void main() {
   late AuthorProfileCubit cubit;
   late MockGetArticlesNewsOfAuthorUseCase mockGetArticlesNewsOfAuthorUseCase;
+  late MockUpdateArticleNewsUseCase mockUpdateArticleNewsUseCase;
+  late MockDeleteArticleNewsUseCase mockDeleteArticleNewsUseCase;
 
   ArticleNewsEntity articleWithUpdatedAt(DateTime updatedAt) {
     return ArticleNewsEntity(
@@ -30,9 +36,24 @@ void main() {
     );
   }
 
+  setUpAll(() {
+    registerFallbackValue(
+      UpdateArticleNewsParams(article: articleWithUpdatedAt(DateTime.utc(2000))),
+    );
+    registerFallbackValue(
+      const DeleteArticleNewsParams(articleUid: 'fallback'),
+    );
+  });
+
   setUp(() {
     mockGetArticlesNewsOfAuthorUseCase = MockGetArticlesNewsOfAuthorUseCase();
-    cubit = AuthorProfileCubit(mockGetArticlesNewsOfAuthorUseCase);
+    mockUpdateArticleNewsUseCase = MockUpdateArticleNewsUseCase();
+    mockDeleteArticleNewsUseCase = MockDeleteArticleNewsUseCase();
+    cubit = AuthorProfileCubit(
+      mockGetArticlesNewsOfAuthorUseCase,
+      mockUpdateArticleNewsUseCase,
+      mockDeleteArticleNewsUseCase,
+    );
   });
 
   tearDown(() {
@@ -151,5 +172,70 @@ void main() {
     expect(firstListenCount, 1);
 
     await controller.close();
+  });
+
+  test('publishAuthorArticle emits loading then success and updates list',
+      () async {
+    final article = articleWithUpdatedAt(DateTime.utc(2024, 1, 1));
+    when(() => mockGetArticlesNewsOfAuthorUseCase(params: 'author-1'))
+        .thenAnswer((_) => Stream.value([article]));
+    cubit.loadAuthorArticles('author-1');
+    await Future<void>.delayed(Duration.zero);
+    when(() => mockUpdateArticleNewsUseCase(params: any(named: 'params')))
+        .thenAnswer((_) async {});
+
+    await cubit.publishAuthorArticle(article);
+
+    expect(cubit.state.publishStatus, AuthorArticlePublishStatus.success);
+    expect(cubit.state.authorArticles.single.status, 'published');
+    verify(() => mockUpdateArticleNewsUseCase(params: any(named: 'params')))
+        .called(1);
+  });
+
+  test('publishAuthorArticle emits failure when update throws', () async {
+    final article = articleWithUpdatedAt(DateTime.utc(2024, 1, 1));
+    when(() => mockUpdateArticleNewsUseCase(params: any(named: 'params')))
+        .thenThrow(Exception('failed'));
+
+    await cubit.publishAuthorArticle(article);
+
+    expect(cubit.state.publishStatus, AuthorArticlePublishStatus.failure);
+    expect(
+      cubit.state.publishError,
+      'Could not publish the article. Please try again.',
+    );
+  });
+
+  test('requestEditArticle and acknowledgeEditNavigation toggle edit state',
+      () {
+    final article = articleWithUpdatedAt(DateTime.utc(2024, 1, 1));
+
+    cubit.requestEditArticle(article);
+    expect(cubit.state.editActionStatus, AuthorArticleEditActionStatus.navigate);
+    expect(cubit.state.selectedArticleForEdit, article);
+
+    cubit.acknowledgeEditNavigation();
+    expect(cubit.state.editActionStatus, AuthorArticleEditActionStatus.initial);
+    expect(cubit.state.selectedArticleForEdit, isNull);
+  });
+
+  test('deleteAuthorArticle returns true on success', () async {
+    when(() => mockDeleteArticleNewsUseCase(params: any(named: 'params')))
+        .thenAnswer((_) async {});
+
+    final result = await cubit.deleteAuthorArticle('article-1');
+
+    expect(result, isTrue);
+    verify(() => mockDeleteArticleNewsUseCase(params: any(named: 'params')))
+        .called(1);
+  });
+
+  test('deleteAuthorArticle returns false on failure', () async {
+    when(() => mockDeleteArticleNewsUseCase(params: any(named: 'params')))
+        .thenThrow(Exception('failed'));
+
+    final result = await cubit.deleteAuthorArticle('article-1');
+
+    expect(result, isFalse);
   });
 }

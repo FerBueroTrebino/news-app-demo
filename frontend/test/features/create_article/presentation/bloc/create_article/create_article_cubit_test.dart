@@ -137,7 +137,7 @@ void main() {
 
     cubit.acknowledgeSubmissionResult();
 
-    expect(cubit.state.submissionStatus, CreateArticleSubmissionStatus.inital);
+    expect(cubit.state.submissionStatus, CreateArticleSubmissionStatus.initial);
     expect(cubit.state.createdArticleId, isNull);
     expect(cubit.state.createdArticleStatus, isNull);
     expect(cubit.state.errorMessage, isNull);

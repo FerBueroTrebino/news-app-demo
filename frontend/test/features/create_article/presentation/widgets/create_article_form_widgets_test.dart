@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:news_app_clean_architecture/features/create_article/presentation/widgets/article_publish_mode.dart';
+import 'package:news_app_clean_architecture/features/create_article/presentation/models/article_publish_mode.dart';
 import 'package:news_app_clean_architecture/features/create_article/presentation/widgets/create_article_body_field.dart';
 import 'package:news_app_clean_architecture/features/create_article/presentation/widgets/create_article_title_field.dart';
 import 'package:news_app_clean_architecture/features/create_article/presentation/widgets/create_article_category_field.dart';
