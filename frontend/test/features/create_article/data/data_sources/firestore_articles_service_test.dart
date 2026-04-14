@@ -76,6 +76,27 @@ void main() {
     });
   });
 
+  group('updateArticle', () {
+    test('delegates to reference update', () async {
+      final data = <String, dynamic>{'title': 'updated'};
+      when(() => mockDocRef.update(any())).thenAnswer((_) async {});
+
+      await service.updateArticle(mockDocRef, data);
+
+      verify(() => mockDocRef.update(data)).called(1);
+    });
+  });
+
+  group('deleteArticle', () {
+    test('delegates to reference delete', () async {
+      when(() => mockDocRef.delete()).thenAnswer((_) async {});
+
+      await service.deleteArticle(mockDocRef);
+
+      verify(() => mockDocRef.delete()).called(1);
+    });
+  });
+
   group('getAllArticles', () {
     test('returns docs from collection get', () async {
       final mockDoc = MockQueryDocumentSnapshot();

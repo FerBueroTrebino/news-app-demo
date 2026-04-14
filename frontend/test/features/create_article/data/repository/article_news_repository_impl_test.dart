@@ -92,6 +92,39 @@ void main() {
     verify(() => mockArticlesService.articleDocument('art-1')).called(1);
   });
 
+  test('updateArticle updates model map on article document', () async {
+    final entity = buildEntity(thumbnailUrl: 'https://existing');
+    when(() => mockArticlesService.articleDocument('art-1'))
+        .thenReturn(mockDocRef);
+    when(
+      () => mockArticlesService.updateArticle(any(), any()),
+    ).thenAnswer((_) async {});
+
+    await repository.updateArticle(entity);
+
+    final captured = verify(
+      () => mockArticlesService.updateArticle(mockDocRef, captureAny()),
+    ).captured.single as Map<String, dynamic>;
+
+    expect(captured['articleUid'], 'art-1');
+    expect(captured['title'], 'T');
+    expect(captured['thumbnailUrl'], 'https://existing');
+    expect(captured['createdAt'], isA<Timestamp>());
+    verify(() => mockArticlesService.articleDocument('art-1')).called(1);
+  });
+
+  test('deleteArticle deletes document by article uid', () async {
+    when(() => mockArticlesService.articleDocument('art-1'))
+        .thenReturn(mockDocRef);
+    when(() => mockArticlesService.deleteArticle(any()))
+        .thenAnswer((_) async {});
+
+    await repository.deleteArticle('art-1');
+
+    verify(() => mockArticlesService.articleDocument('art-1')).called(1);
+    verify(() => mockArticlesService.deleteArticle(mockDocRef)).called(1);
+  });
+
   group('watch streams', () {
     MockQueryDocumentSnapshot snapshotWithMap(Map<String, dynamic> data) {
       final doc = MockQueryDocumentSnapshot();
