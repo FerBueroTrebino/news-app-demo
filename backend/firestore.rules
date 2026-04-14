@@ -111,6 +111,42 @@ service cloud.firestore {
         );
     }
 
+    function validArticleDocument(data, articleId) {
+      return data.articleUid == articleId
+        && data.articleUid is string
+        && data.articleUid.size() > 0
+        && stringLenInRange(data.title, 3, 120)
+        && stringLenInRange(data.description, 90, 250)
+        && stringLenInRange(data.content, 100, 20000)
+        && data.category is string
+        && data.category in articleCategories()
+        && data.status is string
+        && data.status in articleStatuses()
+        && data.thumbnailUrl is string
+        && data.thumbnailUrl.size() <= 2048
+        && isNonEmptyString(data.authorName, 200)
+        && data.viewsCount is int
+        && data.keys().hasOnly(articleCreateKeysWithPublishedAt())
+        && (
+          data.publishedAt is timestamp
+          || data.publishedAt == null
+        );
+    }
+
+    function isArticleOwner() {
+      return request.auth != null
+        && resource.data.authorUid == request.auth.uid;
+    }
+
+    function validArticleUpdate(articleId) {
+      let next = request.resource.data;
+      return isArticleOwner()
+        && next.authorUid == resource.data.authorUid
+        && next.createdAt == resource.data.createdAt
+        && next.updatedAt == request.time
+        && validArticleDocument(next, articleId);
+    }
+
     // Author document shape for initial set (AuthorModel.toFirestoreCreateMap).
     function authorCreateKeys() {
       return [
@@ -161,7 +197,8 @@ service cloud.firestore {
     match /articles/{articleId} {
       allow create: if validArticleCreate(articleId);
       allow read: if canReadArticle();
-      allow update, delete: if false;
+      allow update: if validArticleUpdate(articleId);
+      allow delete: if isArticleOwner();
     }
 
     match /authors/{userId} {
