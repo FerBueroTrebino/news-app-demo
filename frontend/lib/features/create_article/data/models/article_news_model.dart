@@ -124,6 +124,24 @@ class ArticleNewsModel extends Equatable {
     };
   }
 
+  Map<String, dynamic> toFirestoreUpdateMap() {
+    return {
+      'articleUid': articleUid,
+      'title': title,
+      'description': description,
+      'content': content,
+      'category': category,
+      'status': status,
+      'thumbnailUrl': thumbnailUrl,
+      'authorUid': authorUid,
+      'authorName': authorName,
+      'publishedAt':
+          publishedAt != null ? Timestamp.fromDate(publishedAt!) : null,
+      'updatedAt': FieldValue.serverTimestamp(),
+      'viewsCount': viewsCount,
+    };
+  }
+
   static Map<String, dynamic> withServerUpdatedAt(
     Map<String, dynamic> fields,
   ) {

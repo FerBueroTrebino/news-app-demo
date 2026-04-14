@@ -22,6 +22,17 @@ class FirestoreArticlesService {
     return ref.set(data);
   }
 
+  Future<void> updateArticle(
+    DocumentReference<Map<String, dynamic>> ref,
+    Map<String, dynamic> data,
+  ) {
+    return ref.update(data);
+  }
+
+  Future<void> deleteArticle(DocumentReference<Map<String, dynamic>> ref) {
+    return ref.delete();
+  }
+
   Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getAllArticles() {
     return _firestore
         .collection(collectionArticlesName)

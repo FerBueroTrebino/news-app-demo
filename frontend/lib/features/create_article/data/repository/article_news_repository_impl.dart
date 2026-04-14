@@ -29,6 +29,21 @@ class ArticleNewsRepositoryImpl implements ArticleNewsRepository {
     );
   }
 
+  @override
+  Future<void> updateArticle(ArticleNewsEntity article) async {
+    final ref = _articlesService.articleDocument(article.articleUid);
+    await _articlesService.updateArticle(
+      ref,
+      ArticleNewsModel.fromEntity(article).toFirestoreUpdateMap(),
+    );
+  }
+
+  @override
+  Future<void> deleteArticle(String articleUid) async {
+    final ref = _articlesService.articleDocument(articleUid);
+    await _articlesService.deleteArticle(ref);
+  }
+
   Stream<List<ArticleNewsEntity>> _watchArticlesFromDocs(
     Stream<List<QueryDocumentSnapshot<Map<String, dynamic>>>> docStream,
   ) {
