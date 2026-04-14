@@ -1,6 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
 import 'package:intl/intl.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../../../core/widgets/date_chip.dart';
 import '../../domain/entities/article_news_entity.dart';
@@ -10,10 +11,12 @@ class AuthorArticleTile extends StatelessWidget {
     super.key,
     required this.article,
     required this.dateFormat,
+    this.onTap,
   });
 
   final ArticleNewsEntity article;
   final DateFormat dateFormat;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -38,63 +41,69 @@ class AuthorArticleTile extends StatelessWidget {
               ),
             ],
           ),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 140),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _AuthorArticleThumbnail(imageUrl: article.thumbnailUrl),
-                Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        article.title.trim().isNotEmpty
-                            ? article.title
-                            : 'Untitled story',
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          height: 1.25,
-                          color: theme.colorScheme.onSurface,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        article.description.trim().isNotEmpty
-                            ? article.description
-                            : 'No description yet.',
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                          height: 1.35,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: [
-                          _MetaChip(
-                            icon: Icons.topic_rounded,
-                            label: _formatCategoryLabel(article.category),
-                            foregroundColor: theme.colorScheme.primary,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(8),
+            onTap: onTap,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 140),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _AuthorArticleThumbnail(imageUrl: article.thumbnailUrl),
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          article.title.trim().isNotEmpty
+                              ? article.title
+                              : 'Untitled story',
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.w700,
+                            height: 1.25,
+                            color: theme.colorScheme.onSurface,
                           ),
-                          _StatusChip(status: article.status),
-                          DateChip(
-                            label: dateFormat.format(article.updatedAt),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          article.description.trim().isNotEmpty
+                              ? article.description
+                              : 'No description yet.',
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                            height: 1.35,
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _MetaChip(
+                                icon: Icons.topic_rounded,
+                                label: _formatCategoryLabel(article.category),
+                                foregroundColor: theme.colorScheme.primary,
+                                truncateLabel: true,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            _StatusChip(status: article.status),
+                            const SizedBox(width: 8),
+                            DateChip(
+                              label: dateFormat.format(article.updatedAt),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -206,11 +215,13 @@ class _MetaChip extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.foregroundColor,
+    this.truncateLabel = false,
   });
 
   final IconData icon;
   final String label;
   final Color foregroundColor;
+  final bool truncateLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -219,15 +230,21 @@ class _MetaChip extends StatelessWidget {
     return MediaQuery.withClampedTextScaling(
       maxScaleFactor: 1.2,
       child: Row(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: truncateLabel ? MainAxisSize.max : MainAxisSize.min,
         children: [
           Icon(icon, size: 14, color: foregroundColor),
           const SizedBox(width: 4),
-          Text(
-            label,
-            style: theme.textTheme.labelMedium?.copyWith(
-              color: foregroundColor,
-              fontWeight: FontWeight.w600,
+          Flexible(
+            child: Text(
+              label,
+              maxLines: 1,
+              softWrap: false,
+              overflow:
+                  truncateLabel ? TextOverflow.ellipsis : TextOverflow.visible,
+              style: theme.textTheme.labelMedium?.copyWith(
+                color: foregroundColor,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ],
@@ -259,7 +276,7 @@ class _StatusChip extends StatelessWidget {
         ),
       ),
       child: MediaQuery.withClampedTextScaling(
-        maxScaleFactor: 1.2,
+        maxScaleFactor: 1.0,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

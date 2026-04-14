@@ -28,23 +28,38 @@ class AppBarCreateArticle extends StatelessWidget
               return const SizedBox.shrink();
             }
 
-            return Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
+            return PopupMenuButton<_CreateArticleMenuAction>(
+              icon: const Icon(Icons.menu),
+              tooltip: 'Menu',
+              onSelected: (action) {
+                switch (action) {
+                  case _CreateArticleMenuAction.myArticles:
                     Navigator.pushNamed(
-                        context, AppRouteName.authorProfile.path);
-                  },
-                  icon: const Icon(Icons.person),
-                  tooltip: 'My articles',
-                ),
-                IconButton(
-                  onPressed: () {
+                      context,
+                      AppRouteName.authorProfile.path,
+                    );
+                    break;
+                  case _CreateArticleMenuAction.logOut:
                     context.read<AuthCubit>().signOut();
-                  },
-                  icon: const Icon(Icons.logout),
-                  tooltip: 'Logout',
+                    break;
+                }
+              },
+              itemBuilder: (context) => const [
+                PopupMenuItem<_CreateArticleMenuAction>(
+                  value: _CreateArticleMenuAction.myArticles,
+                  child: ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: Icon(Icons.person),
+                    title: Text('My Articles'),
+                  ),
+                ),
+                PopupMenuItem<_CreateArticleMenuAction>(
+                  value: _CreateArticleMenuAction.logOut,
+                  child: ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: Icon(Icons.logout),
+                    title: Text('Log Out'),
+                  ),
                 ),
               ],
             );
@@ -53,4 +68,9 @@ class AppBarCreateArticle extends StatelessWidget
       ],
     );
   }
+}
+
+enum _CreateArticleMenuAction {
+  myArticles,
+  logOut,
 }

@@ -1,11 +1,11 @@
 part of 'create_article_cubit.dart';
 
-enum CreateArticleSubmissionStatus { inital, loading, success, failure }
+enum CreateArticleSubmissionStatus { initial, loading, success, failure }
 
 class CreateArticleState extends Equatable {
   const CreateArticleState({
     this.imageBytes,
-    this.submissionStatus = CreateArticleSubmissionStatus.inital,
+    this.submissionStatus = CreateArticleSubmissionStatus.initial,
     this.errorMessage,
     this.createdArticleId,
     this.createdArticleStatus,

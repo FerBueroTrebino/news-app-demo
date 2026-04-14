@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'create_article_form_validators.dart';
+import '../models/create_article_form_validators.dart';
 
 class CreateArticleTitleField extends StatelessWidget {
   const CreateArticleTitleField({

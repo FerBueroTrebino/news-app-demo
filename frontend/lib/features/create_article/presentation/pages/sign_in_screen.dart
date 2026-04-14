@@ -25,7 +25,7 @@ class SignInScreen extends StatelessWidget {
                 Text(
                   'You need to sign in to create an article.',
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.displaySmall,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 24),
                 GoogleSignInButton(

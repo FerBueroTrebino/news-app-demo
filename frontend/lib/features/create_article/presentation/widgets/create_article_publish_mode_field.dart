@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'article_publish_mode.dart';
+import '../models/article_publish_mode.dart';
 
 class CreateArticlePublishModeField extends StatelessWidget {
   const CreateArticlePublishModeField({

@@ -20,7 +20,7 @@ class DateChip extends StatelessWidget {
         ),
         const SizedBox(width: 6),
         MediaQuery.withClampedTextScaling(
-          maxScaleFactor: 1.2,
+          maxScaleFactor: 1.0,
           child: Text(
             label,
             style: theme.textTheme.labelMedium?.copyWith(

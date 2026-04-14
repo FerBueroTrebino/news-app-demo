@@ -3,11 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../config/routes/routes.dart';
 import '../../../../../core/constants/constants.dart';
-import '../widgets/author_article_tile.dart';
+import '../../../../../core/widgets/snackbar_widget.dart';
+import '../../domain/entities/article_news_entity.dart';
 import '../../../../../injection_container.dart';
 import '../bloc/author_profile/author_profile_cubit.dart';
 import '../../../../../features/auth/presentation/bloc/auth/auth_cubit.dart';
+import '../widgets/author_article_actions_dialog.dart';
+import '../widgets/author_profile_content.dart';
+import '../widgets/delete_article_confirmation_dialog.dart';
 
 class AuthorProfile extends StatelessWidget {
   const AuthorProfile({super.key});
@@ -30,81 +35,108 @@ class AuthorProfile extends StatelessWidget {
 
     return BlocProvider(
       create: (_) => sl<AuthorProfileCubit>()..loadAuthorArticles(authorUid),
-      child: const _AuthorArticlesBody(),
+      child: const _AuthorProfileView(),
     );
   }
 }
 
-class _AuthorArticlesBody extends StatelessWidget {
-  const _AuthorArticlesBody();
+class _AuthorProfileView extends StatelessWidget {
+  const _AuthorProfileView();
+
+  Future<void> _deleteArticle(
+    BuildContext context,
+    ArticleNewsEntity article,
+  ) async {
+    final shouldDelete = await showDeleteArticleConfirmationDialog(context);
+    if (!shouldDelete || !context.mounted) return;
+
+    final isDeleted = await context
+        .read<AuthorProfileCubit>()
+        .deleteAuthorArticle(article.articleUid);
+    if (!context.mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      buildSnackBar(
+        isDeleted
+            ? 'Article deleted successfully.'
+            : 'Could not delete the article. Please try again.',
+        type: isDeleted ? AppSnackBarType.success : AppSnackBarType.error,
+      ),
+    );
+  }
+
+  Future<void> _showArticleActions(
+    BuildContext context,
+    ArticleNewsEntity article,
+  ) async {
+    await showAuthorArticleActionsDialog(
+      context: context,
+      article: article,
+      onEdit: () =>
+          context.read<AuthorProfileCubit>().requestEditArticle(article),
+      onPublish: (selectedArticle) {
+        return context
+            .read<AuthorProfileCubit>()
+            .publishAuthorArticle(selectedArticle);
+      },
+      onDelete: (selectedArticle) {
+        return _deleteArticle(context, selectedArticle);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final dateFormat =
         DateFormat(articleDisplayDatePattern, articleDisplayLocale);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('My articles'),
-      ),
-      body: BlocBuilder<AuthorProfileCubit, AuthorProfileState>(
-        builder: (context, state) {
-          switch (state.authorArticlesStatus) {
-            case AuthorArticlesListStatus.initial:
-            case AuthorArticlesListStatus.loading:
-              return const Center(child: CircularProgressIndicator());
-            case AuthorArticlesListStatus.failure:
-              return Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        state.authorArticlesError ?? 'Something went wrong.',
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 16),
-                      FilledButton(
-                        onPressed: () {
-                          final auth = context.read<AuthCubit>().state;
-                          if (auth is Authenticated && auth.user != null) {
-                            context
-                                .read<AuthorProfileCubit>()
-                                .loadAuthorArticles(auth.user!.uid);
-                          }
-                        },
-                        child: const Text('Retry'),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            case AuthorArticlesListStatus.success:
-              break;
-          }
-
-          if (state.authorArticles.isEmpty) {
-            return Center(
-              child: Text(
-                'No articles yet.',
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-            );
-          }
-
-          return ListView.builder(
-            padding: const EdgeInsets.only(bottom: 16),
-            itemCount: state.authorArticles.length,
-            itemBuilder: (context, index) {
-              final article = state.authorArticles[index];
-              return AuthorArticleTile(
-                article: article,
-                dateFormat: dateFormat,
-              );
-            },
+    return BlocListener<AuthorProfileCubit, AuthorProfileState>(
+      listenWhen: (previous, current) =>
+          previous.publishStatus != current.publishStatus ||
+          previous.editActionStatus != current.editActionStatus,
+      listener: (context, state) async {
+        if (state.editActionStatus == AuthorArticleEditActionStatus.navigate &&
+            state.selectedArticleForEdit != null) {
+          final cubit = context.read<AuthorProfileCubit>();
+          final article = state.selectedArticleForEdit!;
+          cubit.acknowledgeEditNavigation();
+          await Navigator.of(context).pushNamed(
+            AppRouteName.editArticle.path,
+            arguments: article,
           );
-        },
+          return;
+        }
+
+        if (state.publishStatus == AuthorArticlePublishStatus.success) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            buildSnackBar(
+              'Article published successfully.',
+              type: AppSnackBarType.success,
+            ),
+          );
+          context.read<AuthorProfileCubit>().acknowledgePublishResult();
+          return;
+        }
+
+        if (state.publishStatus == AuthorArticlePublishStatus.failure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            buildSnackBar(
+              state.publishError ??
+                  'Could not publish the article. Please try again.',
+              type: AppSnackBarType.error,
+            ),
+          );
+          context.read<AuthorProfileCubit>().acknowledgePublishResult();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('My articles'),
+        ),
+        body: AuthorProfileContent(
+          dateFormat: dateFormat,
+          onArticleTap: (article) => _showArticleActions(context, article),
+        ),
       ),
     );
   }

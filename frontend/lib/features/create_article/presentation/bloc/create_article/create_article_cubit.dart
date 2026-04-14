@@ -31,7 +31,7 @@ class CreateArticleCubit extends Cubit<CreateArticleState> {
 
   void acknowledgeSubmissionResult() {
     emit(state.copyWith(
-      submissionStatus: CreateArticleSubmissionStatus.inital,
+      submissionStatus: CreateArticleSubmissionStatus.initial,
       clearErrorMessage: true,
       clearCreatedArticleId: true,
       clearCreatedArticleStatus: true,

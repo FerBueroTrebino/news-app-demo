@@ -22,6 +22,8 @@ import 'package:news_app_clean_architecture/features/create_article/domain/useca
 import 'package:news_app_clean_architecture/features/create_article/domain/usecases/post_article_news.dart';
 import 'package:news_app_clean_architecture/features/create_article/domain/usecases/upload_article_thumbnail.dart';
 import 'package:news_app_clean_architecture/features/create_article/domain/usecases/sync_author_on_login.dart';
+import 'package:news_app_clean_architecture/features/create_article/domain/usecases/update_article_news.dart';
+import 'package:news_app_clean_architecture/features/create_article/domain/usecases/delete_article_news.dart';
 import 'package:news_app_clean_architecture/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:news_app_clean_architecture/features/auth/domain/repository/auth_repository.dart';
 import 'package:news_app_clean_architecture/features/auth/domain/usecases/get_current_user.dart';
@@ -30,6 +32,7 @@ import 'package:news_app_clean_architecture/features/auth/domain/usecases/sign_o
 import 'package:news_app_clean_architecture/features/auth/presentation/bloc/auth/auth_cubit.dart';
 import 'package:news_app_clean_architecture/features/create_article/presentation/bloc/author_profile/author_profile_cubit.dart';
 import 'package:news_app_clean_architecture/features/create_article/presentation/bloc/create_article/create_article_cubit.dart';
+import 'package:news_app_clean_architecture/features/create_article/presentation/bloc/edit_article/edit_article_cubit.dart';
 import 'package:news_app_clean_architecture/core/constants/constants.dart';
 import 'package:news_app_clean_architecture/features/daily_news/data/data_sources/remote/news_api_service.dart';
 import 'package:news_app_clean_architecture/features/daily_news/data/repository/article_repository_impl.dart';
@@ -122,6 +125,12 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<PostArticleNewsUseCase>(
     PostArticleNewsUseCase(sl(), sl()),
   );
+  sl.registerSingleton<UpdateArticleNewsUseCase>(
+    UpdateArticleNewsUseCase(sl(), sl()),
+  );
+  sl.registerSingleton<DeleteArticleNewsUseCase>(
+    DeleteArticleNewsUseCase(sl()),
+  );
   sl.registerSingleton<GetArticlesNewsOfAuthorUseCase>(
     GetArticlesNewsOfAuthorUseCase(sl()),
   );
@@ -137,7 +146,10 @@ Future<void> initializeDependencies() async {
   sl.registerFactory<CreateArticleCubit>(
     () => CreateArticleCubit(sl(), sl()),
   );
+  sl.registerFactory<EditArticleCubit>(
+    () => EditArticleCubit(sl(), sl()),
+  );
   sl.registerFactory<AuthorProfileCubit>(
-    () => AuthorProfileCubit(sl()),
+    () => AuthorProfileCubit(sl(), sl(), sl()),
   );
 }

@@ -7,7 +7,7 @@ import '../bloc/create_article/create_article_cubit.dart';
 import '../../../../features/auth/presentation/bloc/auth/auth_cubit.dart';
 import '../../../../features/create_article/domain/entities/article_news_entity.dart';
 
-import '../widgets/article_publish_mode.dart';
+import '../models/article_publish_mode.dart';
 import '../widgets/create_article_body_field.dart';
 import '../widgets/create_article_title_field.dart';
 import '../widgets/create_article_category_field.dart';

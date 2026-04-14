@@ -135,6 +135,7 @@ class ArticleNewsModel extends Equatable {
       'thumbnailUrl': thumbnailUrl,
       'authorUid': authorUid,
       'authorName': authorName,
+      'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : null,
       'publishedAt':
           publishedAt != null ? Timestamp.fromDate(publishedAt!) : null,
       'updatedAt': FieldValue.serverTimestamp(),
