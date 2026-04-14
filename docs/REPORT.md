@@ -57,18 +57,23 @@ I made a deliberate change to the article feed layout by placing the image above
 ####  [Video](https://drive.google.com/file/d/1gE_RxKxQIxAIelD1UJPSYwdBnVBtSaKT/view?usp=sharing)
 
 #### Pantallas
-| Home | Detail Article | Create Article 1 | Create Article 2 |
+| Home | Detail Article | Create Article 1 | Create Article Menu |
 |--------|------|----------|--------|
-| <img src="imagenes_demo/1000043746.png" width="240"> | <img src="imagenes_demo/1000043747.png" width="240"> | <img src="imagenes_demo/1000043748.png" width="240"> | <img src="imagenes_demo/1000043749.png" width="240"> |
+| <img src="imagenes_demo/1000043746.png" width="240"> | <img src="imagenes_demo/1000043747.png" width="240"> | <img src="imagenes_demo/1000043758.png" width="240"> | <img src="imagenes_demo/1000043759.png" width="240"> |
 
-| My Articles | Saved Articles | 
+| My Articles | My Articles Actions | Edit Article | Saved Articles | 
+|--------|------|------|----|
+| <img src="imagenes_demo/1000043760.png" width="225"> | <img src="imagenes_demo/1000043761.png" width="225"> | <img src="imagenes_demo/1000043762.png" width="225"> | <img src="imagenes_demo/1000043751.png" width="225"> |
+
+
+#### Pantallas Tamaño de fuente y espaciado ampliado
+| Home | Detail Article  | My Articles | Create Articles |
+|--------|------|----------|-----|
+| <img src="imagenes_demo/1000043741.png" width="240"> | <img src="imagenes_demo/1000043742.png" width="240"> | <img src="imagenes_demo/1000043764.png" width="240"> | <img src="imagenes_demo/1000043745.png" width="240"> |
+
+| My Article Actions | Edit Article | 
 |--------|------|
-| <img src="imagenes_demo/1000043750.png" width="225"> | <img src="imagenes_demo/1000043751.png" width="225"> |
-
-#### Pantallas Tamaño de fuente muy grande
-| Home | Detail Article | Create Article 1 | My Articles |
-|--------|------|----------|--------|
-| <img src="imagenes_demo/1000043741.png" width="240"> | <img src="imagenes_demo/1000043742.png" width="240"> | <img src="imagenes_demo/1000043743.png" width="240"> | <img src="imagenes_demo/1000043744.png" width="240"> |
+| <img src="imagenes_demo/1000043765.png" width="225"> | <img src="imagenes_demo/1000043766.png" width="225"> | 
 
 
 
