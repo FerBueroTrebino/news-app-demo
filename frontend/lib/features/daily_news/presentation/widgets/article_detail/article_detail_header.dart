@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
 
+import '../../../../../core/widgets/date_chip.dart';
+import '../../../../../core/widgets/reading_time_widget.dart';
 import '../../../../../core/utils/date_formatter.dart';
 
 class ArticleDetailHeader extends StatelessWidget {
   final String? title;
   final String? publishedAt;
+  final String readingTimeLabel;
 
   const ArticleDetailHeader({
     super.key,
     this.title,
     this.publishedAt,
+    required this.readingTimeLabel,
   });
 
   @override
@@ -32,18 +35,13 @@ class ArticleDetailHeader extends StatelessWidget {
           ),
           const SizedBox(height: 14),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(
-                Ionicons.time_outline,
-                size: 16,
-                color: theme.colorScheme.onSurfaceVariant,
+              DateChip(
+                label: formattedDate,
               ),
-              const SizedBox(width: 4),
-              Text(
-                formattedDate,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
+              ReadingTimeWidget(
+                label: readingTimeLabel,
               ),
             ],
           ),

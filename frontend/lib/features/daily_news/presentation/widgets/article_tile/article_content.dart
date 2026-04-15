@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/widgets/date_chip.dart';
+import '../../../../../core/widgets/reading_time_widget.dart';
 import '../../../../../core/utils/date_formatter.dart';
 
 class ArticleTileContent extends StatelessWidget {
   final String? title;
   final String? description;
   final String? publishedAt;
+  final String readingTimeLabel;
 
   const ArticleTileContent({
     super.key,
     this.title,
     this.description,
     this.publishedAt,
+    required this.readingTimeLabel,
   });
 
   @override
@@ -49,7 +52,17 @@ class ArticleTileContent extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 6),
-          DateChip(label: formattedDate),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              DateChip(
+                label: formattedDate,
+              ),
+              ReadingTimeWidget(
+                label: readingTimeLabel,
+              ),
+            ],
+          ),
         ],
       ),
     );

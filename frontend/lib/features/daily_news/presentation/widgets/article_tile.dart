@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/utils/reading_time_estimator.dart';
 import '../../domain/entities/article_entity.dart';
 import 'article_tile/article_content.dart';
 import 'article_tile/article_image.dart';
@@ -69,6 +70,11 @@ class ArticleWidget extends StatelessWidget {
                     title: article.title,
                     description: article.description,
                     publishedAt: article.publishedAt,
+                    readingTimeLabel: ReadingTimeEstimator.formatLabel(
+                      title: article.title,
+                      description: article.description,
+                      content: article.content,
+                    ),
                   ),
                 ],
               ),
