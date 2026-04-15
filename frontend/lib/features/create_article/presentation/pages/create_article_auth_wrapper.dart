@@ -22,6 +22,7 @@ class CreateArticleAuthWrapper extends StatelessWidget {
           if (state is Unauthenticated && state.errorMessage != null) {
             ScaffoldMessenger.of(context).showSnackBar(
               buildSnackBar(
+                context,
                 state.errorMessage!,
                 type: AppSnackBarType.error,
               ),

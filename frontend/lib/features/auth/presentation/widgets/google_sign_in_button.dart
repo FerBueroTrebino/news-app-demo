@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/constants/app_spacing.dart';
+
 class GoogleSignInButton extends StatelessWidget {
   final VoidCallback onPressed;
   final bool isLoading;
@@ -12,17 +14,19 @@ class GoogleSignInButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return SizedBox(
       child: ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.indigo,
-          foregroundColor: Colors.white,
+          backgroundColor: theme.colorScheme.primary,
+          foregroundColor: theme.colorScheme.onPrimary,
         ),
         onPressed: isLoading ? null : onPressed,
         icon: isLoading
             ? const SizedBox(
-                height: 16,
-                width: 16,
+                height: AppSpacing.xxl,
+                width: AppSpacing.xxl,
                 child: CircularProgressIndicator(strokeWidth: 2),
               )
             : const Icon(Icons.login),

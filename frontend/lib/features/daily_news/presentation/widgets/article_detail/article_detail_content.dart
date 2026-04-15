@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/constants/app_spacing.dart';
 import '../../../../../core/widgets/article_description_display.dart';
 
 class ArticleDetailContent extends StatelessWidget {
@@ -21,27 +22,22 @@ class ArticleDetailContent extends StatelessWidget {
     final hasContent = contentText.isNotEmpty;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+      padding: AppPadding.horizontalXxlVerticalXxxl,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (hasDescription)
             Text(
               descriptionText,
-              style: theme.textTheme.titleMedium?.copyWith(
-                color: theme.colorScheme.onSurface,
-                height: 1.45,
-                fontWeight: FontWeight.w700,
-              ),
+              style: theme.textTheme.titleMedium,
             ),
-          if (hasDescription && hasContent) const SizedBox(height: 18),
+          if (hasDescription && hasContent)
+            const SizedBox(height: AppSpacing.xxxl),
           if (hasContent) ArticleDescriptionFormatted(raw: contentText),
           if (!hasDescription && !hasContent)
             Text(
               'No content available.',
-              style: theme.textTheme.bodyLarge?.copyWith(
-                color: theme.colorScheme.onSurface,
-              ),
+              style: theme.textTheme.bodyLarge,
             ),
         ],
       ),

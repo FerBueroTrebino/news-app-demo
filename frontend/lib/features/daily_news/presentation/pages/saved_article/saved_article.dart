@@ -22,23 +22,27 @@ class SavedArticles extends HookWidget {
     return BlocProvider(
       create: (_) => sl<LocalArticleBloc>()..add(const GetSavedArticles()),
       child: Scaffold(
-        appBar: _buildAppBar(),
+        appBar: _buildAppBar(context),
         body: _buildBody(),
       ),
     );
   }
 
-  PreferredSizeWidget _buildAppBar() {
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
+    final theme = Theme.of(context);
+
     return AppBar(
       leading: Builder(
         builder: (context) => GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () => _onBackButtonTapped(context),
-          child: const Icon(Ionicons.chevron_back, color: Colors.black),
+          child: const Icon(Ionicons.chevron_back),
         ),
       ),
-      title:
-          const Text('Saved Articles', style: TextStyle(color: Colors.black)),
+      title: Text(
+        'Saved Articles',
+        style: theme.textTheme.titleLarge,
+      ),
     );
   }
 
@@ -48,6 +52,7 @@ class SavedArticles extends HookWidget {
         if (state is LocalArticleRemoved) {
           ScaffoldMessenger.of(context).showSnackBar(
             buildSnackBar(
+              context,
               'Article removed from saved.',
               type: AppSnackBarType.message,
             ),
@@ -55,6 +60,7 @@ class SavedArticles extends HookWidget {
         } else if (state is LocalArticlesError) {
           ScaffoldMessenger.of(context).showSnackBar(
             buildSnackBar(
+              context,
               state.message,
               type: AppSnackBarType.error,
             ),
@@ -65,20 +71,23 @@ class SavedArticles extends HookWidget {
         if (state is LocalArticlesLoading) {
           return const Center(child: CupertinoActivityIndicator());
         } else if (state is LocalArticlesDone) {
-          return _buildArticlesList(state.articles!);
+          return _buildArticlesList(context, state.articles!);
         }
         return const SizedBox.shrink();
       },
     );
   }
 
-  Widget _buildArticlesList(List<ArticleEntity> articles) {
+  Widget _buildArticlesList(BuildContext context, List<ArticleEntity> articles) {
+    final theme = Theme.of(context);
+
     if (articles.isEmpty) {
-      return const Center(
-          child: Text(
-        'NO SAVED ARTICLES',
-        style: TextStyle(color: Colors.black),
-      ));
+      return Center(
+        child: Text(
+          'NO SAVED ARTICLES',
+          style: theme.textTheme.titleSmall,
+        ),
+      );
     }
 
     return ListView.builder(

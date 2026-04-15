@@ -44,6 +44,7 @@ class ArticleDetailsView extends StatelessWidget {
                 if (state is LocalArticleSaved) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     buildSnackBar(
+                      context,
                       'Article saved successfully.',
                       type: AppSnackBarType.success,
                     ),
@@ -51,6 +52,7 @@ class ArticleDetailsView extends StatelessWidget {
                 } else if (state is LocalArticlesError) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     buildSnackBar(
+                      context,
                       'There was an error saving the article.',
                       type: AppSnackBarType.error,
                     ),
@@ -65,6 +67,7 @@ class ArticleDetailsView extends StatelessWidget {
               listener: (context, state) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   buildSnackBar(
+                    context,
                     state.errorMessage!,
                     type: AppSnackBarType.error,
                   ),

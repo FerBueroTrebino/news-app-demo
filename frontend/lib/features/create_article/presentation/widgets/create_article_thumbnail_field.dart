@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/constants/app_spacing.dart';
 import '../bloc/create_article/create_article_cubit.dart';
 
 class CreateArticleThumbnailField extends StatelessWidget {
@@ -24,12 +25,12 @@ class CreateArticleThumbnailField extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Material(
-              color: Colors.transparent,
+              color: Theme.of(context).colorScheme.surface.withValues(alpha: 0),
               child: InkWell(
                 onTap: () => cubit.pickImageFromGallery(),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
                   child: AspectRatio(
                     aspectRatio: 16 / 9,
                     child: Image.memory(

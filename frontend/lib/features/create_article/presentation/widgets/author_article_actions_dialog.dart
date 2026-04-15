@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/constants/app_spacing.dart';
 import '../../domain/entities/article_news_entity.dart';
 
 typedef ArticleActionCallback = Future<void> Function(
@@ -61,7 +62,7 @@ Future<void> showAuthorArticleActionsDialog({
                   child: const Text('Edit article'),
                 ),
                 if (isDraft) ...[
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSpacing.sm),
                   FilledButton(
                     onPressed: isPublishing
                         ? null
@@ -79,17 +80,14 @@ Future<void> showAuthorArticleActionsDialog({
                           },
                     child: isPublishing
                         ? const SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
-                            ),
+                            height: AppSpacing.huge,
+                            width: AppSpacing.huge,
+                            child: CircularProgressIndicator(strokeWidth: 2),
                           )
                         : const Text('Publish article'),
                   ),
                 ],
-                const SizedBox(height: 8),
+                const SizedBox(height: AppSpacing.sm),
                 FilledButton(
                   style: FilledButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.error,

@@ -57,6 +57,7 @@ class _AuthorProfileView extends StatelessWidget {
 
     ScaffoldMessenger.of(context).showSnackBar(
       buildSnackBar(
+        context,
         isDeleted
             ? 'Article deleted successfully.'
             : 'Could not delete the article. Please try again.',
@@ -110,6 +111,7 @@ class _AuthorProfileView extends StatelessWidget {
         if (state.publishStatus == AuthorArticlePublishStatus.success) {
           ScaffoldMessenger.of(context).showSnackBar(
             buildSnackBar(
+              context,
               'Article published successfully.',
               type: AppSnackBarType.success,
             ),
@@ -121,6 +123,7 @@ class _AuthorProfileView extends StatelessWidget {
         if (state.publishStatus == AuthorArticlePublishStatus.failure) {
           ScaffoldMessenger.of(context).showSnackBar(
             buildSnackBar(
+              context,
               state.publishError ??
                   'Could not publish the article. Please try again.',
               type: AppSnackBarType.error,

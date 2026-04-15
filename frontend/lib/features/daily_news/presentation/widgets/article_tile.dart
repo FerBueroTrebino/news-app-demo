@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/utils/reading_time_estimator.dart';
 import '../../domain/entities/article_entity.dart';
 import 'article_tile/article_content.dart';
@@ -25,24 +26,24 @@ class ArticleWidget extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: AppPadding.horizontalXxlVerticalSm,
       child: Material(
-        color: Colors.transparent,
+        color: theme.colorScheme.surface.withValues(alpha: 0),
         child: InkWell(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
           onTap: _onTap,
           child: Ink(
             decoration: BoxDecoration(
               color: theme.colorScheme.surface,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
               border: Border.all(
                 color: theme.colorScheme.outline.withValues(alpha: 0.12),
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.07),
+                  color: theme.colorScheme.shadow.withValues(alpha: 0.07),
                   blurRadius: 18,
-                  offset: const Offset(0, 8),
+                  offset: const Offset(0, AppSpacing.sm),
                 ),
               ],
             ),
@@ -50,7 +51,7 @@ class ArticleWidget extends StatelessWidget {
               constraints: const BoxConstraints(minHeight: 140),
               child: ListView(
                 shrinkWrap: true,
-                padding: EdgeInsets.zero,
+                padding: AppPadding.zero,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   Stack(
@@ -58,8 +59,8 @@ class ArticleWidget extends StatelessWidget {
                       ArticleTileImage(url: article.urlToImage),
                       if (isRemovable)
                         Positioned(
-                          top: 6,
-                          right: 6,
+                          top: AppSpacing.xs,
+                          right: AppSpacing.xs,
                           child: ArticleTileRemoveButton(
                             onPressed: _onRemove,
                           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/constants/app_spacing.dart';
 import '../bloc/edit_article/edit_article_cubit.dart';
 
 class EditArticleSubmitButton extends StatelessWidget {
@@ -20,7 +21,7 @@ class EditArticleSubmitButton extends StatelessWidget {
         return FilledButton(
           onPressed: loading ? null : onPressed,
           style: FilledButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 16),
+            padding: AppPadding.verticalXxl,
           ),
           child: loading
               ? const SizedBox(

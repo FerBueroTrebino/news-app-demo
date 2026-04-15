@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constants/app_spacing.dart';
+
 class DateChip extends StatelessWidget {
   final String label;
 
@@ -18,15 +20,12 @@ class DateChip extends StatelessWidget {
           size: 12,
           color: theme.colorScheme.primary,
         ),
-        const SizedBox(width: 6),
+        const SizedBox(width: AppSpacing.xs),
         MediaQuery.withClampedTextScaling(
           maxScaleFactor: 1.0,
           child: Text(
             label,
-            style: theme.textTheme.labelMedium?.copyWith(
-              color: theme.colorScheme.primary,
-              fontWeight: FontWeight.w600,
-            ),
+            style: theme.textTheme.labelMedium,
           ),
         ),
       ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/constants/app_spacing.dart';
 import '../../../../../core/widgets/date_chip.dart';
 import '../../../../../core/widgets/reading_time_widget.dart';
 import '../../../../../core/utils/date_formatter.dart';
@@ -24,7 +25,7 @@ class ArticleTileContent extends StatelessWidget {
     final formattedDate = AppDateFormatter.formatFromIsoString(publishedAt);
 
     return Padding(
-      padding: const EdgeInsets.all(12),
+      padding: AppPadding.allLg,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,25 +34,18 @@ class ArticleTileContent extends StatelessWidget {
             title?.trim().isNotEmpty == true ? title! : 'Untitled story',
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
-            style: theme.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w700,
-              height: 1.25,
-              color: theme.colorScheme.onSurface,
-            ),
+            style: theme.textTheme.titleLarge,
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: AppSpacing.xs),
           Text(
             description?.trim().isNotEmpty == true
                 ? description!
                 : 'Tap to explore the full article and details.',
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-              height: 1.35,
-            ),
+            style: theme.textTheme.bodySmall,
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: AppSpacing.xs),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

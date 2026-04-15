@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import '../../../../core/constants/app_spacing.dart';
 import '../bloc/edit_article/edit_article_cubit.dart';
 import '../../domain/entities/article_news_entity.dart';
 
@@ -129,12 +130,12 @@ class _ClickableThumbnail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      color: Theme.of(context).colorScheme.surface.withValues(alpha: 0),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
           child: AspectRatio(
             aspectRatio: 16 / 9,
             child: child,

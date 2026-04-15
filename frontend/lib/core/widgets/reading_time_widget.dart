@@ -16,10 +16,7 @@ class ReadingTimeWidget extends StatelessWidget {
       maxScaleFactor: 1.0,
       child: Text(
         label,
-        style: theme.textTheme.labelMedium?.copyWith(
-          color: theme.colorScheme.primary,
-          fontWeight: FontWeight.w600,
-        ),
+        style: theme.textTheme.labelMedium,
       ),
     );
   }

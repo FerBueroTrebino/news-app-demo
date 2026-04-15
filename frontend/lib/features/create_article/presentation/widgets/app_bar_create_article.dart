@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../config/routes/routes.dart';
+import '../../../../core/constants/app_spacing.dart';
 import '../../../auth/presentation/bloc/auth/auth_cubit.dart';
 
 class AppBarCreateArticle extends StatelessWidget
@@ -17,9 +18,9 @@ class AppBarCreateArticle extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text(
+      title: Text(
         'Create News',
-        style: TextStyle(color: Colors.black),
+        style: Theme.of(context).textTheme.titleLarge,
       ),
       actions: [
         BlocBuilder<AuthCubit, AuthState>(
@@ -48,7 +49,7 @@ class AppBarCreateArticle extends StatelessWidget
                 PopupMenuItem<_CreateArticleMenuAction>(
                   value: _CreateArticleMenuAction.myArticles,
                   child: ListTile(
-                    contentPadding: EdgeInsets.zero,
+                    contentPadding: AppPadding.zero,
                     leading: Icon(Icons.person),
                     title: Text('My Articles'),
                   ),
@@ -56,7 +57,7 @@ class AppBarCreateArticle extends StatelessWidget
                 PopupMenuItem<_CreateArticleMenuAction>(
                   value: _CreateArticleMenuAction.logOut,
                   child: ListTile(
-                    contentPadding: EdgeInsets.zero,
+                    contentPadding: AppPadding.zero,
                     leading: Icon(Icons.logout),
                     title: Text('Log Out'),
                   ),

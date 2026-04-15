@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/constants/app_spacing.dart';
 import '../widgets/edit_article_form.dart';
 import '../models/article_publish_mode.dart';
 import '../bloc/edit_article/edit_article_cubit.dart';
@@ -93,6 +94,7 @@ class _EditArticleState extends State<EditArticle> {
         if (state.submissionStatus == EditArticleSubmissionStatus.success) {
           messenger.showSnackBar(
             buildSnackBar(
+              context,
               'Article updated successfully.',
               type: AppSnackBarType.success,
             ),
@@ -103,6 +105,7 @@ class _EditArticleState extends State<EditArticle> {
             EditArticleSubmissionStatus.failure) {
           messenger.showSnackBar(
             buildSnackBar(
+              context,
               state.errorMessage ?? 'Something went wrong.',
               type: AppSnackBarType.error,
             ),
@@ -115,7 +118,7 @@ class _EditArticleState extends State<EditArticle> {
           title: const Text('Edit article'),
         ),
         body: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
+          padding: AppPadding.allGiant,
           child: EditArticleForm(
             formKey: _formKey,
             article: widget.article,

@@ -21,9 +21,7 @@ class CreateArticlePublishModeField extends StatelessWidget {
       children: [
         Text(
           'Status',
-          style: theme.textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
+          style: theme.textTheme.titleSmall,
         ),
         const SizedBox(height: 8),
         SegmentedButton<ArticlePublishMode>(

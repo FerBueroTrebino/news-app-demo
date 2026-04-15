@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/constants/app_spacing.dart';
 import 'author_article_tile.dart';
 import '../../domain/entities/article_news_entity.dart';
 import '../bloc/author_profile/author_profile_cubit.dart';
@@ -37,7 +38,7 @@ class AuthorProfileContent extends StatelessWidget {
         }
 
         return ListView.builder(
-          padding: const EdgeInsets.only(bottom: 16),
+          padding: AppPadding.bottomXxl,
           itemCount: state.authorArticles.length,
           itemBuilder: (context, index) {
             final article = state.authorArticles[index];
@@ -61,7 +62,7 @@ class _AuthorArticlesFailureView extends StatelessWidget {
     final state = context.watch<AuthorProfileCubit>().state;
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: AppPadding.allGiant,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

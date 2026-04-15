@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../config/routes/routes.dart';
+import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/enums/news_category.dart';
 import '../../../../core/widgets/snackbar_widget.dart';
 import '../bloc/create_article/create_article_cubit.dart';
@@ -49,6 +50,7 @@ class _CreateArticleState extends State<CreateArticle> {
     if (thumbnailBytes == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         buildSnackBar(
+          context,
           'Please choose an image from your library.',
           type: AppSnackBarType.alert,
         ),
@@ -104,6 +106,7 @@ class _CreateArticleState extends State<CreateArticle> {
               : 'Draft saved successfully in your profile.';
           messenger.showSnackBar(
             buildSnackBar(
+              context,
               verifiedMessage,
               type: AppSnackBarType.success,
             ),
@@ -124,6 +127,7 @@ class _CreateArticleState extends State<CreateArticle> {
             CreateArticleSubmissionStatus.failure) {
           messenger.showSnackBar(
             buildSnackBar(
+              context,
               state.errorMessage ?? 'Something went wrong.',
               type: AppSnackBarType.error,
             ),
@@ -132,7 +136,7 @@ class _CreateArticleState extends State<CreateArticle> {
         }
       },
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: AppPadding.allGiant,
         child: Form(
           key: _formKey,
           child: Column(

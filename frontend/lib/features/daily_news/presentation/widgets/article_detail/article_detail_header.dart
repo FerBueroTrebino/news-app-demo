@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/constants/app_spacing.dart';
 import '../../../../../core/widgets/date_chip.dart';
 import '../../../../../core/widgets/reading_time_widget.dart';
 import '../../../../../core/utils/date_formatter.dart';
@@ -22,18 +23,15 @@ class ArticleDetailHeader extends StatelessWidget {
     final formattedDate = AppDateFormatter.formatFromIsoString(publishedAt);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: AppPadding.horizontalXxl,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             title?.trim().isNotEmpty == true ? title! : 'Untitled story',
-            style: theme.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: theme.colorScheme.onSurface,
-            ),
+            style: theme.textTheme.titleLarge,
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: AppSpacing.xl),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

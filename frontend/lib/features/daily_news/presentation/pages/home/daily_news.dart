@@ -29,15 +29,17 @@ class _DailyNewsState extends State<DailyNews> {
   Widget build(BuildContext context) => _buildPage();
 
   AppBar _buildAppbar(BuildContext context) {
+    final theme = Theme.of(context);
+
     return AppBar(
-      title: const Text(
+      title: Text(
         'Daily News',
-        style: TextStyle(color: Colors.black),
+        style: theme.textTheme.titleLarge,
       ),
       actions: [
         IconButton(
           onPressed: _openCategoryDrawer,
-          icon: const Icon(Icons.menu, color: Colors.black),
+          icon: const Icon(Icons.menu),
         ),
       ],
     );
@@ -49,6 +51,7 @@ class _DailyNewsState extends State<DailyNews> {
         if (state is RemoteArticlesError && state.error != null) {
           ScaffoldMessenger.of(context).showSnackBar(
             buildSnackBar(
+              context,
               state.error?.message ?? 'An unknown error occurred.',
               type: AppSnackBarType.error,
             ),
@@ -118,14 +121,16 @@ class _DailyNewsState extends State<DailyNews> {
   }
 
   Drawer _buildCategoryDrawer(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Drawer(
       child: ListView(
         children: [
           ListTile(
             leading: const Icon(Icons.bookmark_border),
-            title: const Text(
+            title: Text(
               'Saved Articles',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: theme.textTheme.titleLarge,
             ),
             onTap: () {
               Navigator.pop(context);
@@ -135,9 +140,9 @@ class _DailyNewsState extends State<DailyNews> {
           const Divider(),
           ListTile(
             leading: const Icon(Icons.newspaper),
-            title: const Text(
+            title: Text(
               'News Categories',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: theme.textTheme.titleLarge,
             ),
           ),
           ..._categories.map(

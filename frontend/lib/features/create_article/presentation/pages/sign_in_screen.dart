@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/constants/app_spacing.dart';
 import '../../../auth/presentation/bloc/auth/auth_cubit.dart';
 import '../../../auth/presentation/widgets/google_sign_in_button.dart';
 
@@ -13,12 +14,12 @@ class SignInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(24),
+      padding: AppPadding.allGiant,
       child: Center(
         child: Card(
           elevation: 8,
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: AppPadding.allXxl,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

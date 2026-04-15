@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/widgets/date_chip.dart';
 import '../../domain/entities/article_news_entity.dart';
 
@@ -23,26 +24,26 @@ class AuthorArticleTile extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: AppPadding.horizontalXxlVerticalSm,
       child: Material(
-        color: Colors.transparent,
+        color: theme.colorScheme.surface.withValues(alpha: 0),
         child: Ink(
           decoration: BoxDecoration(
             color: theme.colorScheme.surface,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
             border: Border.all(
               color: theme.colorScheme.outline.withValues(alpha: 0.12),
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.07),
+                color: theme.colorScheme.shadow.withValues(alpha: 0.07),
                 blurRadius: 18,
-                offset: const Offset(0, 8),
+                offset: const Offset(0, AppSpacing.sm),
               ),
             ],
           ),
           child: InkWell(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
             onTap: onTap,
             child: ConstrainedBox(
               constraints: const BoxConstraints(minHeight: 140),
@@ -52,7 +53,7 @@ class AuthorArticleTile extends StatelessWidget {
                 children: [
                   _AuthorArticleThumbnail(imageUrl: article.thumbnailUrl),
                   Padding(
-                    padding: const EdgeInsets.all(12),
+                    padding: AppPadding.allLg,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -62,25 +63,18 @@ class AuthorArticleTile extends StatelessWidget {
                               : 'Untitled story',
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
-                          style: theme.textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.w700,
-                            height: 1.25,
-                            color: theme.colorScheme.onSurface,
-                          ),
+                          style: theme.textTheme.titleLarge,
                         ),
-                        const SizedBox(height: 6),
+                        const SizedBox(height: AppSpacing.xs),
                         Text(
                           article.description.trim().isNotEmpty
                               ? article.description
                               : 'No description yet.',
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
-                            height: 1.35,
-                          ),
+                          style: theme.textTheme.bodySmall,
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: AppSpacing.md),
                         Row(
                           children: [
                             Expanded(
@@ -91,9 +85,9 @@ class AuthorArticleTile extends StatelessWidget {
                                 truncateLabel: true,
                               ),
                             ),
-                            const SizedBox(width: 8),
+                            const SizedBox(width: AppSpacing.sm),
                             _StatusChip(status: article.status),
-                            const SizedBox(width: 8),
+                            const SizedBox(width: AppSpacing.sm),
                             DateChip(
                               label: dateFormat.format(article.updatedAt),
                             ),
@@ -136,8 +130,8 @@ class _AuthorArticleThumbnail extends StatelessWidget {
       imageUrl: url,
       imageBuilder: (_, imageProvider) => ClipRRect(
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(8),
-          topRight: Radius.circular(8),
+          topLeft: Radius.circular(AppSpacing.radiusSm),
+          topRight: Radius.circular(AppSpacing.radiusSm),
         ),
         child: AspectRatio(
           aspectRatio: 16 / 9,
@@ -181,8 +175,8 @@ class _ThumbnailPlaceholder extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(8),
-        topRight: Radius.circular(8),
+        topLeft: Radius.circular(AppSpacing.radiusSm),
+        topRight: Radius.circular(AppSpacing.radiusSm),
       ),
       child: AspectRatio(
         aspectRatio: 16 / 9,
@@ -233,17 +227,18 @@ class _MetaChip extends StatelessWidget {
         mainAxisSize: truncateLabel ? MainAxisSize.max : MainAxisSize.min,
         children: [
           Icon(icon, size: 14, color: foregroundColor),
-          const SizedBox(width: 4),
+          const SizedBox(width: AppSpacing.xxs),
           Flexible(
-            child: Text(
-              label,
-              maxLines: 1,
-              softWrap: false,
-              overflow:
-                  truncateLabel ? TextOverflow.ellipsis : TextOverflow.visible,
-              style: theme.textTheme.labelMedium?.copyWith(
-                color: foregroundColor,
-                fontWeight: FontWeight.w600,
+            child: DefaultTextStyle.merge(
+              style: TextStyle(color: foregroundColor),
+              child: Text(
+                label,
+                maxLines: 1,
+                softWrap: false,
+                overflow: truncateLabel
+                    ? TextOverflow.ellipsis
+                    : TextOverflow.visible,
+                style: theme.textTheme.labelMedium,
               ),
             ),
           ),
@@ -267,10 +262,10 @@ class _StatusChip extends StatelessWidget {
     final icon = _statusIcon(normalized);
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: AppPadding.horizontalMdVerticalXxs,
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
         border: Border.all(
           color: theme.colorScheme.outline.withValues(alpha: 0.08),
         ),
@@ -281,13 +276,12 @@ class _StatusChip extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(icon, size: 14, color: fg),
-            const SizedBox(width: 5),
-            Text(
-              _formatStatusLabel(status),
-              style: theme.textTheme.labelMedium?.copyWith(
-                color: fg,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 0.2,
+            const SizedBox(width: AppSpacing.xxs),
+            DefaultTextStyle.merge(
+              style: TextStyle(color: fg),
+              child: Text(
+                _formatStatusLabel(status),
+                style: theme.textTheme.labelLarge,
               ),
             ),
           ],
