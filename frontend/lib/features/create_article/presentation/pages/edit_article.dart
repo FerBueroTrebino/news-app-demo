@@ -7,7 +7,7 @@ import '../models/article_publish_mode.dart';
 import '../bloc/edit_article/edit_article_cubit.dart';
 import '../../../../core/widgets/snackbar_widget.dart';
 import '../../domain/entities/article_news_entity.dart';
-import '../../../../injection_container.dart';
+import '../../../../../config/di/injection_container.dart';
 
 class EditArticle extends StatefulWidget {
   const EditArticle({

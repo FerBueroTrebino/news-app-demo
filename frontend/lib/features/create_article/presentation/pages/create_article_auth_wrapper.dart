@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'sign_in_screen.dart';
 import 'create_article.dart';
-import '../../../../injection_container.dart';
+import '../../../../../config/di/injection_container.dart';
 import '../widgets/app_bar_create_article.dart';
 import '../../../../core/widgets/snackbar_widget.dart';
 import '../bloc/create_article/create_article_cubit.dart';

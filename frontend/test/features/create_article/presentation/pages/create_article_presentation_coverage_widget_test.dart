@@ -22,7 +22,8 @@ import 'package:news_app_clean_architecture/features/create_article/presentation
 import 'package:news_app_clean_architecture/features/create_article/presentation/pages/author_profile.dart';
 import 'package:news_app_clean_architecture/features/create_article/presentation/pages/create_article.dart';
 import 'package:news_app_clean_architecture/features/create_article/presentation/pages/create_article_auth_wrapper.dart';
-import 'package:news_app_clean_architecture/injection_container.dart' as inject;
+import 'package:news_app_clean_architecture/config/di/injection_container.dart'
+    as inject;
 
 class MockAuthCubit extends MockCubit<AuthState> implements AuthCubit {}
 
@@ -34,8 +35,12 @@ class MockPostArticleNewsUseCase extends Mock
 
 class MockGetArticlesNewsOfAuthorUseCase extends Mock
     implements GetArticlesNewsOfAuthorUseCase {}
-class MockUpdateArticleNewsUseCase extends Mock implements UpdateArticleNewsUseCase {}
-class MockDeleteArticleNewsUseCase extends Mock implements DeleteArticleNewsUseCase {}
+
+class MockUpdateArticleNewsUseCase extends Mock
+    implements UpdateArticleNewsUseCase {}
+
+class MockDeleteArticleNewsUseCase extends Mock
+    implements DeleteArticleNewsUseCase {}
 
 class TestCreateArticleCubit extends CreateArticleCubit {
   TestCreateArticleCubit(super.pick, super.post);

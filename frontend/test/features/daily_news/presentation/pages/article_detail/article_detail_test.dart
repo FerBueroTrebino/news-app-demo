@@ -8,7 +8,7 @@ import 'package:news_app_clean_architecture/features/daily_news/presentation/blo
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/local/local_article_state.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/pages/article_detail/article_detail.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/widgets/article_detail/article_detail_save_button.dart';
-import 'package:news_app_clean_architecture/injection_container.dart';
+import 'package:news_app_clean_architecture/config/di/injection_container.dart';
 
 class MockLocalArticleBloc
     extends MockBloc<LocalArticlesEvent, LocalArticlesState>

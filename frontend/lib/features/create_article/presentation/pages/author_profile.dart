@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../widgets/author_profile_content.dart';
 import '../../../../../config/routes/routes.dart';
 import '../../../../../core/constants/constants.dart';
-import '../../../../../core/widgets/snackbar_widget.dart';
-import '../../domain/entities/article_news_entity.dart';
-import '../../../../../injection_container.dart';
-import '../bloc/author_profile/author_profile_cubit.dart';
-import '../../../../../features/auth/presentation/bloc/auth/auth_cubit.dart';
 import '../widgets/author_article_actions_dialog.dart';
-import '../widgets/author_profile_content.dart';
+import '../../domain/entities/article_news_entity.dart';
+import '../bloc/author_profile/author_profile_cubit.dart';
+import '../../../../../core/widgets/snackbar_widget.dart';
+import '../../../../../config/di/injection_container.dart';
 import '../widgets/delete_article_confirmation_dialog.dart';
+import '../../../../../features/auth/presentation/bloc/auth/auth_cubit.dart';
 
 class AuthorProfile extends StatelessWidget {
   const AuthorProfile({super.key});
