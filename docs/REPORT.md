@@ -57,25 +57,27 @@ I made a deliberate change to the article feed layout by placing the image above
 ####  [Video](https://drive.google.com/file/d/1gE_RxKxQIxAIelD1UJPSYwdBnVBtSaKT/view?usp=sharing)
 
 #### Pantallas
-| Home | Detail Article | Create Article 1 | Create Article Menu |
+| Home | Detail Article | Menu Home | Home Category Entertainment |
 |--------|------|----------|--------|
-| <img src="imagenes_demo/1000043746.png" width="240"> | <img src="imagenes_demo/1000043747.png" width="240"> | <img src="imagenes_demo/1000043758.png" width="240"> | <img src="imagenes_demo/1000043759.png" width="240"> |
+| <img src="imagenes_demo/01.png" width="240"> | <img src="imagenes_demo/01-b.png" width="240"> | <img src="imagenes_demo/02.png" width="240"> | <img src="imagenes_demo/03.png" width="240"> |
 
-| My Articles | My Articles Actions | Edit Article | Saved Articles | 
+| Saved Articles | Log In | Create Article | Create Article Menu | 
 |--------|------|------|----|
-| <img src="imagenes_demo/1000043760.png" width="225"> | <img src="imagenes_demo/1000043761.png" width="225"> | <img src="imagenes_demo/1000043762.png" width="225"> | <img src="imagenes_demo/1000043751.png" width="225"> |
+| <img src="imagenes_demo/04.png" width="240"> | <img src="imagenes_demo/05.png" width="240"> | <img src="imagenes_demo/06.png" width="240"> | <img src="imagenes_demo/07.png" width="240"> |
+
+| My Articles | My Article Options  | Edit Article | 
+|--------|------|----------|
+| <img src="imagenes_demo/08.png" width="240"> | <img src="imagenes_demo/09.png" width="240"> | <img src="imagenes_demo/09-b.png" width="240"> |
 
 
 #### Pantallas Tamaño de fuente y espaciado ampliado
-| Home | Detail Article  | My Articles | Create Articles |
-|--------|------|----------|-----|
-| <img src="imagenes_demo/1000043741.png" width="240"> | <img src="imagenes_demo/1000043742.png" width="240"> | <img src="imagenes_demo/1000043764.png" width="240"> | <img src="imagenes_demo/1000043745.png" width="240"> |
+| Home | Detail Article | Menu Home | Saved Articles |
+|--------|------|----------|--------|
+| <img src="imagenes_demo/10.png" width="240"> | <img src="imagenes_demo/12.png" width="240"> | <img src="imagenes_demo/11.png" width="240"> | <img src="imagenes_demo/13.png" width="240"> |
 
-| My Article Actions | Edit Article | 
+| My Articles | Create Article |
 |--------|------|
-| <img src="imagenes_demo/1000043765.png" width="225"> | <img src="imagenes_demo/1000043766.png" width="225"> | 
-
-
+| <img src="imagenes_demo/14.png" width="240"> | <img src="imagenes_demo/15.png" width="240"> |
 
 ### 6. Overdelivery
 
