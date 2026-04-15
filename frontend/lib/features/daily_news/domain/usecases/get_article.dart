@@ -42,6 +42,7 @@ String _normalizeCategory(String? category) {
 bool _matchesCategory(ArticleNewsEntity article, String? selectedCategory) {
   if (selectedCategory == null || selectedCategory.trim().isEmpty) return true;
   final selected = _normalizeCategory(selectedCategory);
+  if (selected == NewsCategory.general.apiValue) return true;
   final articleCategory = _normalizeCategory(article.category);
   return articleCategory == selected;
 }
