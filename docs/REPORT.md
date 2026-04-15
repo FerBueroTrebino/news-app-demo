@@ -54,7 +54,7 @@ I made a deliberate change to the article feed layout by placing the image above
 
 ### 5. Proof of the project
 
-####  [Video](https://drive.google.com/file/d/1gE_RxKxQIxAIelD1UJPSYwdBnVBtSaKT/view?usp=sharing)
+####  [Video Demo](https://drive.google.com/file/d/1vmxD_kZAg9o5Bii81wC6d7Q9fnkxP-Vb/view?usp=sharing)
 
 #### Pantallas
 | Home | Detail Article | Menu Home | Home Category Entertainment |
@@ -128,24 +128,24 @@ The main feed was extended to display articles from two sources simultaneously: 
 ##### 8. Image Caching
 Integrated an image caching package to store article images locally after the first load. This reduces redundant network requests, improves scroll performance in the feed, and lowers data consumption for the user.
 
-### 9. Category Drawer Menu
+##### 9. Category Drawer Menu
 A drawer-style side menu accessible from the main feed's App Bar. When opened, it displays the available article categories — tapping a category filters the feed to show only articles from that category. The drawer also includes a dedicated section for saved articles, allowing users to quickly access bookmarked content from the same menu. 
 This follows the navigation pattern observed during competitive benchmarking of the New York Times and The Guardian.
 
-### 10. Estimated Reading Time
+##### 10. Estimated Reading Time
 Each article in the feed now displays an estimated reading time, calculated from the article's word count. 
 This feature was consistently observed across both The New York Times and The Guardian during benchmarking.
 
-### 11. Text-to-Speech
+##### 11. Text-to-Speech
 A button in the article detail screen app bar reads the article content aloud using the device's text-to-speech engine, allowing users to consume content hands-free. 
 This feature was identified during benchmarking of the New York Times.
 
-### 12. Global Theme and Spacing
+##### 12. Global Theme and Spacing
 All implemented widgets were refactored to eliminate hardcoded styles. Styling is now applied exclusively through the app's theme, ensuring visual consistency across the entire application. Additionally, a centralized `AppSizes` file was introduced so that all spacing and padding values reference a single source of truth, making layout adjustments straightforward and systematic.
 
 #### 2. Prototypes Created:
 
-### 1. Article Detail — Author Info & Profile Page
+##### 1. Article Detail — Author Info & Profile Page
 When an article was written by a registered author, the article detail screen displays the author's name and profile image below the article body. Tapping on the author navigates to a dedicated Author Detail Page showing:
 
 - Profile photo
@@ -155,13 +155,13 @@ When an article was written by a registered author, the article detail screen di
 
 This directly implements the author profile feature proposed in the Benchmarking & Functional Scope Definition document.
 
-### 2. Feed Search
+##### 2. Feed Search
 A search bar integrated into the drawer menu (see P1), allowing users to search across all articles in the feed — both from the News API and from Firestore-authored content.
 
-### 3. Related Articles
+##### 3. Related Articles
 At the bottom of each article detail screen, a horizontal scrollable list of articles from the same category would be shown, helping users discover related content and increasing session depth. This feature was identified during the analysis of The Guardian.
 
-### 4. Bottom Navigation Bar
+##### 4. Bottom Navigation Bar
 Instead of a Floating Action Button to navigate to article creation, a Bottom Navigation Bar would replace it, providing three main destinations:
 
 - **Feed** — the main article feed
@@ -172,7 +172,7 @@ This structure creates a more intuitive and scalable navigation pattern, and avo
 
 #### 3. How Can You Improve This:
 
-### 1. Author Profile Page
+##### 1. Author Profile Page
 A dedicated profile page where the author can view and edit their own information:
 
 - Display name
@@ -181,19 +181,19 @@ A dedicated profile page where the author can view and edit their own informatio
 
 This implements the author identity feature proposed in the Benchmarking document and complements the Author Detail Page (P1) that other users would see.
 
-### 2. Light / Dark Theme
+##### 2. Light / Dark Theme
 Introduce full light and dark theme support, allowing users to switch between modes either manually or automatically based on system preferences. Given that the app's styling is already centralized through the global theme, this improvement has a solid foundation and can be implemented with minimal friction.
 
-### 3. Widget Extraction and Reuse (In Progress)
+##### 3. Widget Extraction and Reuse (In Progress)
 Continue extracting UI components into standalone, reusable widgets stored in a dedicated widgets folder. The goal is to eliminate duplicated widget code across screens — if the same visual element is needed in two places, it should be built once and reused. This refactor improves maintainability, reduces the risk of inconsistencies, and makes future changes easier to apply globally.
 
-### 4. Most Read Articles & Read Tracking
+##### 4. Most Read Articles & Read Tracking
 A reading tracking system where, if a user spends at least half of the estimated reading time on an article, it is marked as read. This enables:
 
 - A feed filter to sort articles by date or by most read
 - A most read section on each author's profile, showing which of their articles have had the most engagement
 
-### 5. Article Sharing
+##### 5. Article Sharing
 Allow users to share an article via a share button in the article detail screen. Full implementation requires:
 
 - Deep link routing between pages
