@@ -57,18 +57,23 @@ I made a deliberate change to the article feed layout by placing the image above
 ####  [Video](https://drive.google.com/file/d/1gE_RxKxQIxAIelD1UJPSYwdBnVBtSaKT/view?usp=sharing)
 
 #### Pantallas
-| Home | Detail Article | Create Article 1 | Create Article 2 |
+| Home | Detail Article | Create Article 1 | Create Article Menu |
 |--------|------|----------|--------|
-| <img src="imagenes_demo/1000043746.png" width="240"> | <img src="imagenes_demo/1000043747.png" width="240"> | <img src="imagenes_demo/1000043748.png" width="240"> | <img src="imagenes_demo/1000043749.png" width="240"> |
+| <img src="imagenes_demo/1000043746.png" width="240"> | <img src="imagenes_demo/1000043747.png" width="240"> | <img src="imagenes_demo/1000043758.png" width="240"> | <img src="imagenes_demo/1000043759.png" width="240"> |
 
-| My Articles | Saved Articles | 
+| My Articles | My Articles Actions | Edit Article | Saved Articles | 
+|--------|------|------|----|
+| <img src="imagenes_demo/1000043760.png" width="225"> | <img src="imagenes_demo/1000043761.png" width="225"> | <img src="imagenes_demo/1000043762.png" width="225"> | <img src="imagenes_demo/1000043751.png" width="225"> |
+
+
+#### Pantallas Tamaño de fuente y espaciado ampliado
+| Home | Detail Article  | My Articles | Create Articles |
+|--------|------|----------|-----|
+| <img src="imagenes_demo/1000043741.png" width="240"> | <img src="imagenes_demo/1000043742.png" width="240"> | <img src="imagenes_demo/1000043764.png" width="240"> | <img src="imagenes_demo/1000043745.png" width="240"> |
+
+| My Article Actions | Edit Article | 
 |--------|------|
-| <img src="imagenes_demo/1000043750.png" width="225"> | <img src="imagenes_demo/1000043751.png" width="225"> |
-
-#### Pantallas Tamaño de fuente muy grande
-| Home | Detail Article | Create Article 1 | My Articles |
-|--------|------|----------|--------|
-| <img src="imagenes_demo/1000043741.png" width="240"> | <img src="imagenes_demo/1000043742.png" width="240"> | <img src="imagenes_demo/1000043743.png" width="240"> | <img src="imagenes_demo/1000043744.png" width="240"> |
+| <img src="imagenes_demo/1000043765.png" width="225"> | <img src="imagenes_demo/1000043766.png" width="225"> | 
 
 
 
@@ -104,10 +109,16 @@ Authors can create articles through a dedicated creation screen, with the follow
 - **Image picker** — opens the device gallery to select a photo, as per the project requirements
 - **Markdown support** — the article body supports Markdown formatting for subtitles and bullets.
 - **Post-creation navigation** — if saved as a draft, the user is redirected to *My Articles*; if published, they are redirected to the home feed where the new article is immediately visible
-- **App Bar actions** — the creation screen provides quick access to logout and to the *My Articles* page
+- **App Bar menu** — the creation screen provides quick access to *logout* and to the *My Articles* page
 
-##### 6. My Articles Page — Author Profile
-A dedicated page where authors can view all of their created articles, with a clear indication of whether each article is **published** or in **draft** status. This implements a basic author profile and article management features proposed in the Benchmarking document.
+##### 6. My Articles Page — Author Article Management
+A dedicated page where authors can view and fully manage all of their created articles. Each article displays a clear indication of whether it is published or in draft status. Authors can perform the following actions:
+
+- **Edit article** — modify the title, body content, cover image, and category of any existing article through a dedicated edit screen, pre-populated with the article's current data
+- **Change publication status** — toggle an article between draft and published at any time, with the feed updating immediately to reflect the change
+- **Delete article** — permanently remove an article, with a confirmation dialog to prevent accidental deletion
+
+This implements the full article management and author profile features proposed in the Benchmarking document.
 
 ##### 7. Combined Article Feed
 The main feed was extended to display articles from two sources simultaneously: articles fetched from the **News API** and articles published by authors stored in **Firestore**. This delivers a unified reading experience that blends external news with community-created content.
@@ -117,22 +128,10 @@ Integrated an image caching package to store article images locally after the fi
 
 #### 2. Prototypes Created:
 
-##### 1. Bottom Navigation Bar
-Instead of a Floating Action Button to navigate to article creation, a Bottom Navigation Bar would replace it, providing three main destinations:
-
-Feed — the main article feed
-My Articles — the author's article management page
-Profile — the author's profile page
-
-This structure creates a more intuitive and scalable navigation pattern, and avoids hiding key actions behind a single FAB.
-
-##### 2. Category Drawer Menu
+##### 1. Category Drawer Menu
 A drawer-style side menu accessible from the main feed's App Bar. When opened, it displays the available article categories. Tapping a category filters the feed to show only articles from that category, following the pattern observed in the competitive benchmarking of the New York Times and The Guardian.
 
-##### 3. Feed Search
-A search bar integrated into the drawer menu (see P2), allowing users to search across all articles in the feed — both from the News API and from Firestore-authored content.
-
-##### 4. Article Detail — Author Info & Profile Page
+##### 2. Article Detail — Author Info & Profile Page
 When an article was written by a registered author, the article detail screen displays the author's name and profile image below the article body. Tapping on the author navigates to a dedicated Author Detail Page showing:
 
 Profile photo
@@ -142,8 +141,20 @@ A list of the author's published articles
 
 This directly implements the author profile feature proposed in the Benchmarking & Functional Scope Definition document.
 
-##### 5. Related Articles
+##### 3. Feed Search
+A search bar integrated into the drawer menu (see P2), allowing users to search across all articles in the feed — both from the News API and from Firestore-authored content.
+
+##### 4. Related Articles
 At the bottom of each article detail screen, a horizontal scrollable list of articles from the same category would be shown, helping users discover related content and increasing session depth. This feature was identified during the analysis of The Guardian.
+
+##### 5. Bottom Navigation Bar
+Instead of a Floating Action Button to navigate to article creation, a Bottom Navigation Bar would replace it, providing three main destinations:
+
+Feed — the main article feed
+My Articles — the author's article management page
+Profile — the author's profile page
+
+This structure creates a more intuitive and scalable navigation pattern, and avoids hiding key actions behind a single FAB.
 
 #### 3. How Can You Improve This:
 
