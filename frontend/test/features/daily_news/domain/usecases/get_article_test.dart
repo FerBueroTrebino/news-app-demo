@@ -46,7 +46,7 @@ void main() {
       when(() => mockArticlesNewsListUseCase())
           .thenAnswer((_) => Stream.value(<ArticleNewsEntity>[]));
 
-      when(() => mockArticleRepository.getNewsArticles())
+      when(() => mockArticleRepository.getNewsArticles(category: any(named: 'category')))
           .thenAnswer((_) async => DataSuccess(testArticleList));
 
       final result = await getArticleUseCase().first;
@@ -55,7 +55,8 @@ void main() {
 
       expect(result.data, equals(testArticleList));
 
-      verify(() => mockArticleRepository.getNewsArticles()).called(1);
+      verify(() => mockArticleRepository.getNewsArticles(category: null))
+          .called(1);
 
       verify(() => mockArticlesNewsListUseCase()).called(1);
 
@@ -71,7 +72,7 @@ void main() {
       when(() => mockArticlesNewsListUseCase())
           .thenAnswer((_) => Stream.value([tPublishedNews]));
 
-      when(() => mockArticleRepository.getNewsArticles())
+      when(() => mockArticleRepository.getNewsArticles(category: any(named: 'category')))
           .thenAnswer((_) async => DataSuccess(testArticleList));
 
       final result = await getArticleUseCase().first;
@@ -95,7 +96,8 @@ void main() {
 
       expect(result.data!.skip(1).toList(), testArticleList);
 
-      verify(() => mockArticleRepository.getNewsArticles()).called(1);
+      verify(() => mockArticleRepository.getNewsArticles(category: null))
+          .called(1);
 
       verify(() => mockArticlesNewsListUseCase()).called(1);
     },
@@ -107,7 +109,7 @@ void main() {
       when(() => mockArticlesNewsListUseCase())
           .thenAnswer((_) => Stream.value(<ArticleNewsEntity>[]));
 
-      when(() => mockArticleRepository.getNewsArticles())
+      when(() => mockArticleRepository.getNewsArticles(category: any(named: 'category')))
           .thenAnswer((_) async => const DataSuccess(<ArticleEntity>[]));
 
       final result = await getArticleUseCase().first;
@@ -116,7 +118,8 @@ void main() {
 
       expect(result.data, isEmpty);
 
-      verify(() => mockArticleRepository.getNewsArticles()).called(1);
+      verify(() => mockArticleRepository.getNewsArticles(category: null))
+          .called(1);
 
       verify(() => mockArticlesNewsListUseCase()).called(1);
     },
@@ -131,7 +134,7 @@ void main() {
       when(() => mockArticlesNewsListUseCase())
           .thenAnswer((_) => Stream.value(<ArticleNewsEntity>[]));
 
-      when(() => mockArticleRepository.getNewsArticles())
+      when(() => mockArticleRepository.getNewsArticles(category: any(named: 'category')))
           .thenAnswer((_) async => const DataFailed(tFailure));
 
       final result = await getArticleUseCase().first;
@@ -140,7 +143,8 @@ void main() {
 
       expect(result.error, equals(tFailure));
 
-      verify(() => mockArticleRepository.getNewsArticles()).called(1);
+      verify(() => mockArticleRepository.getNewsArticles(category: null))
+          .called(1);
 
       verify(() => mockArticlesNewsListUseCase()).called(1);
     },
@@ -155,7 +159,7 @@ void main() {
       when(() => mockArticlesNewsListUseCase())
           .thenAnswer((_) => Stream.value([tPublishedNews]));
 
-      when(() => mockArticleRepository.getNewsArticles())
+      when(() => mockArticleRepository.getNewsArticles(category: any(named: 'category')))
           .thenAnswer((_) async => const DataFailed(tFailure));
 
       final result = await getArticleUseCase().first;
@@ -198,7 +202,7 @@ void main() {
 
       when(() => mockArticlesNewsListUseCase())
           .thenAnswer((_) => Stream.value([midFirestore]));
-      when(() => mockArticleRepository.getNewsArticles())
+      when(() => mockArticleRepository.getNewsArticles(category: any(named: 'category')))
           .thenAnswer((_) async => DataSuccess([newerApi, olderApi]));
 
       final result = await getArticleUseCase().first;
@@ -231,7 +235,7 @@ void main() {
 
       when(() => mockArticlesNewsListUseCase())
           .thenAnswer((_) => Stream.value([newsNoPublished]));
-      when(() => mockArticleRepository.getNewsArticles())
+      when(() => mockArticleRepository.getNewsArticles(category: any(named: 'category')))
           .thenAnswer((_) async => const DataSuccess(<ArticleEntity>[]));
 
       final result = await getArticleUseCase().first;
@@ -260,7 +264,7 @@ void main() {
 
       when(() => mockArticlesNewsListUseCase())
           .thenAnswer((_) => Stream.value([noThumb]));
-      when(() => mockArticleRepository.getNewsArticles())
+      when(() => mockArticleRepository.getNewsArticles(category: any(named: 'category')))
           .thenAnswer((_) async => const DataSuccess(<ArticleEntity>[]));
 
       final result = await getArticleUseCase().first;
@@ -279,13 +283,49 @@ void main() {
           [tPublishedNews],
         ]),
       );
-      when(() => mockArticleRepository.getNewsArticles())
+      when(() => mockArticleRepository.getNewsArticles(category: any(named: 'category')))
           .thenAnswer((_) async => DataSuccess(testArticleList));
 
       final out = await getArticleUseCase().take(2).toList();
 
       expect(out, hasLength(2));
-      verify(() => mockArticleRepository.getNewsArticles()).called(1);
+      verify(() => mockArticleRepository.getNewsArticles(category: null))
+          .called(1);
+    },
+  );
+
+  test(
+    'should pass selected category to repository and filter Firestore articles by category',
+    () async {
+      final generalNews = tPublishedNews;
+      final scienceNews = ArticleNewsEntity(
+        articleUid: 'uid-science',
+        title: 'Science News',
+        description: 'Science Desc',
+        content: 'Science content',
+        category: 'science',
+        status: 'published',
+        thumbnailUrl: 'https://science-thumb',
+        authorUid: 'a2',
+        authorName: 'Author Two',
+        createdAt: DateTime.utc(2026, 2, 1),
+        updatedAt: DateTime.utc(2026, 2, 2),
+        publishedAt: DateTime.utc(2026, 2, 2),
+      );
+
+      when(() => mockArticlesNewsListUseCase())
+          .thenAnswer((_) => Stream.value([generalNews, scienceNews]));
+      when(() => mockArticleRepository.getNewsArticles(category: any(named: 'category')))
+          .thenAnswer((_) async => const DataSuccess(<ArticleEntity>[]));
+
+      final result = await getArticleUseCase(params: 'science').first;
+
+      expect(result, isA<DataSuccess<List<ArticleEntity>>>());
+      expect(result.data, hasLength(1));
+      expect(result.data!.single.title, 'Science News');
+
+      verify(() => mockArticleRepository.getNewsArticles(category: 'science'))
+          .called(1);
     },
   );
 }

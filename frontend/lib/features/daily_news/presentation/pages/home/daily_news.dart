@@ -4,19 +4,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../widgets/article_tile.dart';
+import '../../../../../config/routes/routes.dart';
+import '../../../../../core/enums/news_category.dart';
 import '../../../domain/entities/article_entity.dart';
 import '../../../../../core/widgets/snackbar_widget.dart';
-import 'package:news_app_clean_architecture/config/routes/routes.dart';
-import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_bloc.dart';
-import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_state.dart';
+import '../../bloc/article/remote/remote_article_event.dart';
+import '../../bloc/article/remote/remote_article_bloc.dart';
+import '../../bloc/article/remote/remote_article_state.dart';
 
-class DailyNews extends StatelessWidget {
+class DailyNews extends StatefulWidget {
   const DailyNews({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return _buildPage();
-  }
+  State<DailyNews> createState() => _DailyNewsState();
+}
+
+class _DailyNewsState extends State<DailyNews> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  NewsCategory _selectedCategory = NewsCategory.general;
+  static const List<NewsCategory> _categories = NewsCategory.values;
+
+  @override
+  Widget build(BuildContext context) => _buildPage();
 
   AppBar _buildAppbar(BuildContext context) {
     return AppBar(
@@ -25,12 +35,9 @@ class DailyNews extends StatelessWidget {
         style: TextStyle(color: Colors.black),
       ),
       actions: [
-        GestureDetector(
-          onTap: () => _onShowSavedArticlesViewTapped(context),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Icon(Icons.bookmark, color: Colors.black),
-          ),
+        IconButton(
+          onPressed: _openCategoryDrawer,
+          icon: const Icon(Icons.menu, color: Colors.black),
         ),
       ],
     );
@@ -51,13 +58,19 @@ class DailyNews extends StatelessWidget {
       builder: (context, state) {
         if (state is RemoteArticlesLoading) {
           return Scaffold(
-              appBar: _buildAppbar(context),
-              body: const Center(child: CupertinoActivityIndicator()));
+            key: _scaffoldKey,
+            appBar: _buildAppbar(context),
+            endDrawer: _buildCategoryDrawer(context),
+            body: const Center(child: CupertinoActivityIndicator()),
+          );
         }
         if (state is RemoteArticlesError) {
           return Scaffold(
-              appBar: _buildAppbar(context),
-              body: const Center(child: Icon(Icons.refresh)));
+            key: _scaffoldKey,
+            appBar: _buildAppbar(context),
+            endDrawer: _buildCategoryDrawer(context),
+            body: const Center(child: Icon(Icons.refresh)),
+          );
         }
         if (state is RemoteArticlesDone) {
           return _buildArticlesPage(context, state.articles!);
@@ -70,7 +83,9 @@ class DailyNews extends StatelessWidget {
   Widget _buildArticlesPage(
       BuildContext context, List<ArticleEntity> articles) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: _buildAppbar(context),
+      endDrawer: _buildCategoryDrawer(context),
       body: ListView.builder(
         itemCount: articles.length,
         itemBuilder: (context, index) {
@@ -100,5 +115,58 @@ class DailyNews extends StatelessWidget {
 
   void _onShowSavedArticlesViewTapped(BuildContext context) {
     Navigator.pushNamed(context, AppRouteName.savedArticles.path);
+  }
+
+  Drawer _buildCategoryDrawer(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        children: [
+          ListTile(
+            leading: const Icon(Icons.bookmark_border),
+            title: const Text(
+              'Saved Articles',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              _onShowSavedArticlesViewTapped(context);
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.newspaper),
+            title: const Text(
+              'News Categories',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+          ..._categories.map(
+            (category) => ListTile(
+              title: Text(category.displayName),
+              trailing: _selectedCategory == category
+                  ? const Icon(Icons.check)
+                  : null,
+              onTap: () => _onCategorySelected(context, category),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _onCategorySelected(BuildContext context, NewsCategory category) {
+    Navigator.pop(context);
+    if (_selectedCategory == category) return;
+
+    setState(() {
+      _selectedCategory = category;
+    });
+    context
+        .read<RemoteArticlesBloc>()
+        .add(GetArticles(category: category.apiValue));
+  }
+
+  void _openCategoryDrawer() {
+    _scaffoldKey.currentState?.openEndDrawer();
   }
 }

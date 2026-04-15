@@ -1,15 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:news_app_clean_architecture/core/enums/news_category.dart';
 
 class ArticleNewsEntity extends Equatable {
-  static const List<String> allowedCategories = [
-    'general',
-    'business',
-    'entertainment',
-    'health',
-    'science',
-    'sport',
-    'technology',
-  ];
+  static final List<String> allowedCategories =
+      NewsCategory.values.map((category) => category.apiValue).toList();
 
   static const List<String> allowedStatuses = [
     'draft',

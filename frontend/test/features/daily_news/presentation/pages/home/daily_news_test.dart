@@ -18,6 +18,8 @@ class MockRemoteArticlesBloc
     extends MockBloc<RemoteArticlesEvent, RemoteArticlesState>
     implements RemoteArticlesBloc {}
 
+class FakeRemoteArticlesEvent extends Fake implements RemoteArticlesEvent {}
+
 class UnhandledRemoteArticlesState extends RemoteArticlesState {
   const UnhandledRemoteArticlesState();
 }
@@ -39,6 +41,10 @@ void main() {
     mockRemoteArticlesBloc = MockRemoteArticlesBloc();
   });
 
+  setUpAll(() {
+    registerFallbackValue(FakeRemoteArticlesEvent());
+  });
+
   /// Helper to wrap the widget under test with necessary providers and Material structure.
   Widget makeTestableWidget(Widget body) {
     return BlocProvider<RemoteArticlesBloc>.value(
@@ -51,7 +57,7 @@ void main() {
 
   group('DailyNews Widget Tests', () {
     testWidgets(
-      'Should display AppBar with "Daily News" title and bookmark icon',
+      'Should display AppBar with "Daily News" title and menu icon',
       (WidgetTester tester) async {
         // Arrange
         when(() => mockRemoteArticlesBloc.state)
@@ -62,7 +68,7 @@ void main() {
 
         // Assert
         expect(find.text('Daily News'), findsOneWidget);
-        expect(find.byIcon(Icons.bookmark), findsOneWidget);
+        expect(find.byIcon(Icons.menu), findsOneWidget);
       },
     );
 
@@ -151,7 +157,7 @@ void main() {
     );
 
     testWidgets(
-      'Should navigate to saved articles when bookmark icon is tapped',
+      'Should navigate to saved articles when selected from right drawer',
       (WidgetTester tester) async {
         when(() => mockRemoteArticlesBloc.state)
             .thenReturn(const RemoteArticlesLoading());
@@ -170,10 +176,60 @@ void main() {
           ),
         );
 
-        await tester.tap(find.byIcon(Icons.bookmark));
-        await tester.pumpAndSettle();
+        await tester.tap(find.byIcon(Icons.menu));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 300));
+
+        await tester.tap(find.text('Saved Articles'));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 300));
 
         expect(find.text('Saved Articles Screen'), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'Should open right drawer from app bar menu and list categories',
+      (WidgetTester tester) async {
+        when(() => mockRemoteArticlesBloc.state)
+            .thenReturn(const RemoteArticlesLoading());
+
+        await tester.pumpWidget(makeTestableWidget(const DailyNews()));
+
+        expect(find.text('News Categories'), findsNothing);
+
+        await tester.tap(find.byIcon(Icons.menu));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 300));
+
+        expect(find.text('News Categories'), findsOneWidget);
+        expect(find.text('Saved Articles'), findsOneWidget);
+        expect(find.text('Business'), findsOneWidget);
+        expect(find.text('Sports'), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'Should request filtered articles when selecting category from drawer',
+      (WidgetTester tester) async {
+        when(() => mockRemoteArticlesBloc.state)
+            .thenReturn(const RemoteArticlesLoading());
+
+        await tester.pumpWidget(makeTestableWidget(const DailyNews()));
+
+        await tester.tap(find.byIcon(Icons.menu));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 300));
+
+        await tester.tap(find.text('Science'));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 300));
+
+        final captured = verify(
+          () => mockRemoteArticlesBloc.add(captureAny()),
+        ).captured;
+        expect(captured.single, isA<GetArticles>());
+        expect((captured.single as GetArticles).category, 'science');
       },
     );
 

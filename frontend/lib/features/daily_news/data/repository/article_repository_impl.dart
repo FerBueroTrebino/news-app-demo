@@ -17,12 +17,14 @@ class ArticleRepositoryImpl implements ArticleRepository {
   ArticleRepositoryImpl(this._newsApiService, this._appDatabase);
 
   @override
-  Future<DataState<List<ArticleEntity>>> getNewsArticles() async {
+  Future<DataState<List<ArticleEntity>>> getNewsArticles({
+    String? category,
+  }) async {
     try {
       final httpResponse = await _newsApiService.getNewsArticles(
         apiKey: newsAPIKey,
         country: countryQuery,
-        category: categoryQuery,
+        category: category ?? categoryQuery,
       );
 
       if (httpResponse.response.statusCode == HttpStatus.ok) {

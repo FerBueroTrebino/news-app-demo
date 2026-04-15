@@ -41,7 +41,7 @@ void main() {
       'emits [RemoteArticlesDone] when GetArticles is added and usecase returns DataSuccess',
       () async {
     // arrange
-    when(() => mockGetArticleUseCase())
+    when(() => mockGetArticleUseCase(params: any(named: 'params')))
         .thenAnswer((_) => Stream.value(DataSuccess(tArticles)));
 
     // assert later -> wait for emits
@@ -53,6 +53,8 @@ void main() {
 
     // act
     bloc.add(const GetArticles());
+    await untilCalled(() => mockGetArticleUseCase(params: any(named: 'params')));
+    verify(() => mockGetArticleUseCase(params: null)).called(1);
   });
 
   test(
@@ -60,7 +62,7 @@ void main() {
       () async {
     // arrange
     const failure = ServerFailure("An unexpected error occurred");
-    when(() => mockGetArticleUseCase())
+    when(() => mockGetArticleUseCase(params: any(named: 'params')))
         .thenAnswer((_) => Stream.value(DataFailed(failure)));
 
     // assert later -> wait for emits
@@ -72,12 +74,14 @@ void main() {
 
     // act
     bloc.add(const GetArticles());
+    await untilCalled(() => mockGetArticleUseCase(params: any(named: 'params')));
+    verify(() => mockGetArticleUseCase(params: null)).called(1);
   });
 
   blocTest<RemoteArticlesBloc, RemoteArticlesState>(
     'does not emit when use case returns success with an empty article list',
     build: () {
-      when(() => mockGetArticleUseCase()).thenAnswer(
+      when(() => mockGetArticleUseCase(params: any(named: 'params'))).thenAnswer(
         (_) => Stream.value(const DataSuccess(<ArticleEntity>[])),
       );
 
@@ -87,6 +91,25 @@ void main() {
     expect: () => const <RemoteArticlesState>[],
     verify: (bloc) {
       expect(bloc.state, const RemoteArticlesLoading());
+      verify(() => mockGetArticleUseCase(params: null)).called(1);
     },
   );
+
+  test(
+      'passes selected category to use case when GetArticles includes category',
+      () async {
+    when(() => mockGetArticleUseCase(params: any(named: 'params')))
+        .thenAnswer((_) => Stream.value(DataSuccess(tArticles)));
+
+    final expected = [
+      RemoteArticlesDone(tArticles),
+    ];
+
+    expectLater(bloc.stream, emitsInOrder(expected));
+
+    bloc.add(const GetArticles(category: 'science'));
+
+    await untilCalled(() => mockGetArticleUseCase(params: any(named: 'params')));
+    verify(() => mockGetArticleUseCase(params: 'science')).called(1);
+  });
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../config/routes/routes.dart';
+import '../../../../core/enums/news_category.dart';
 import '../../../../core/widgets/snackbar_widget.dart';
 import '../bloc/create_article/create_article_cubit.dart';
 import '../../../../features/auth/presentation/bloc/auth/auth_cubit.dart';
@@ -30,7 +31,7 @@ class _CreateArticleState extends State<CreateArticle> {
   final _contentController = TextEditingController();
 
   ArticlePublishMode _publishMode = ArticlePublishMode.draft;
-  String _category = 'general';
+  String _category = NewsCategory.general.apiValue;
 
   @override
   void dispose() {
