@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
-class ArticleDetailAppBar extends StatelessWidget implements PreferredSizeWidget {
+class ArticleDetailAppBar extends StatelessWidget
+    implements PreferredSizeWidget {
   final VoidCallback onBackPressed;
+  final bool isReading;
+  final VoidCallback onReadTogglePressed;
 
   const ArticleDetailAppBar({
     super.key,
     required this.onBackPressed,
+    required this.isReading,
+    required this.onReadTogglePressed,
   });
 
   @override
@@ -20,6 +25,13 @@ class ArticleDetailAppBar extends StatelessWidget implements PreferredSizeWidget
           color: Theme.of(context).colorScheme.onSurface,
         ),
       ),
+      actions: [
+        IconButton(
+          onPressed: onReadTogglePressed,
+          tooltip: isReading ? 'Stop reading' : 'Read article aloud',
+          icon: Icon(isReading ? Icons.stop : Icons.headphones),
+        ),
+      ],
     );
   }
 

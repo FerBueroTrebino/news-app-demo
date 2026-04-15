@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get_it/get_it.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -16,8 +17,11 @@ import 'package:news_app_clean_architecture/features/auth/domain/usecases/sign_i
 import 'package:news_app_clean_architecture/features/daily_news/domain/usecases/remove_article.dart';
 import 'package:news_app_clean_architecture/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:news_app_clean_architecture/features/auth/data/data_sources/firebase_auth_service.dart';
+import 'package:news_app_clean_architecture/features/daily_news/data/repository/article_reader_impl.dart';
 import 'package:news_app_clean_architecture/features/daily_news/domain/usecases/get_saved_article.dart';
+import 'package:news_app_clean_architecture/features/daily_news/domain/usecases/read_article.dart';
 import 'package:news_app_clean_architecture/features/daily_news/data/data_sources/local/app_database.dart';
+import 'package:news_app_clean_architecture/features/daily_news/domain/repository/article_reader.dart';
 import 'package:news_app_clean_architecture/features/daily_news/domain/repository/article_repository.dart';
 import 'package:news_app_clean_architecture/features/create_article/domain/usecases/post_article_news.dart';
 import 'package:news_app_clean_architecture/features/create_article/domain/usecases/pick_article_image.dart';
@@ -37,6 +41,7 @@ import 'package:news_app_clean_architecture/features/create_article/data/data_so
 import 'package:news_app_clean_architecture/features/create_article/data/data_sources/firestore_articles_service.dart';
 import 'package:news_app_clean_architecture/features/create_article/data/repository/article_news_repository_impl.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/local/local_article_bloc.dart';
+import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article_reader/article_reader_cubit.dart';
 import 'package:news_app_clean_architecture/features/create_article/data/repository/article_thumbnail_storage_impl.dart';
 import 'package:news_app_clean_architecture/features/daily_news/presentation/bloc/article/remote/remote_article_bloc.dart';
 import 'package:news_app_clean_architecture/features/create_article/domain/repository/article_thumbnail_url_resolver.dart';
@@ -58,6 +63,7 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);
   sl.registerSingleton<FirebaseFirestore>(FirebaseFirestore.instance);
   sl.registerSingleton<FirebaseStorage>(FirebaseStorage.instance);
+  sl.registerSingleton<FlutterTts>(FlutterTts());
   final googleSignIn = GoogleSignIn.instance;
   await googleSignIn.initialize(serverClientId: googleWebClientId);
   sl.registerSingleton<GoogleSignIn>(googleSignIn);
@@ -90,6 +96,7 @@ Future<void> initializeDependencies() async {
   );
 
   sl.registerSingleton<ArticleRepository>(ArticleRepositoryImpl(sl(), sl()));
+  sl.registerSingleton<ArticleReader>(ArticleReaderImpl(sl()));
   sl.registerSingleton<AuthRepository>(
     AuthRepositoryImpl(sl()),
   );
@@ -108,6 +115,7 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<SaveArticleUseCase>(SaveArticleUseCase(sl()));
 
   sl.registerSingleton<RemoveArticleUseCase>(RemoveArticleUseCase(sl()));
+  sl.registerSingleton<ReadArticleUseCase>(ReadArticleUseCase(sl()));
   sl.registerSingleton<GetCurrentUserUseCase>(
     GetCurrentUserUseCase(sl()),
   );
@@ -141,6 +149,9 @@ Future<void> initializeDependencies() async {
 
   sl.registerFactory<LocalArticleBloc>(
       () => LocalArticleBloc(sl(), sl(), sl()));
+  sl.registerFactory<ArticleReaderCubit>(
+    () => ArticleReaderCubit(sl()),
+  );
   sl.registerFactory<AuthCubit>(
     () => AuthCubit(sl(), sl(), sl(), sl()),
   );

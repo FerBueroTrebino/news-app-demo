@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/entities/article_entity.dart';
 import '../../../../../core/widgets/snackbar_widget.dart';
 import '../../bloc/article/local/local_article_bloc.dart';
+import '../../bloc/article_reader/article_reader_cubit.dart';
 import '../../../../../config/di/injection_container.dart';
 import '../../bloc/article/local/local_article_event.dart';
 import '../../bloc/article/local/local_article_state.dart';
@@ -26,59 +27,98 @@ class ArticleDetailsView extends StatelessWidget {
       );
     }
 
-    return BlocProvider(
-      create: (_) => sl<LocalArticleBloc>()..add(const GetSavedArticles()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => sl<LocalArticleBloc>()..add(const GetSavedArticles()),
+        ),
+        BlocProvider(
+          create: (_) => sl<ArticleReaderCubit>(),
+        ),
+      ],
       child: Builder(
-        builder: (innerContext) {
-          return BlocListener<LocalArticleBloc, LocalArticlesState>(
-            listener: (context, state) {
-              if (state is LocalArticleSaved) {
+        builder: (innerContext) => MultiBlocListener(
+          listeners: [
+            BlocListener<LocalArticleBloc, LocalArticlesState>(
+              listener: (context, state) {
+                if (state is LocalArticleSaved) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    buildSnackBar(
+                      'Article saved successfully.',
+                      type: AppSnackBarType.success,
+                    ),
+                  );
+                } else if (state is LocalArticlesError) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    buildSnackBar(
+                      'There was an error saving the article.',
+                      type: AppSnackBarType.error,
+                    ),
+                  );
+                }
+              },
+            ),
+            BlocListener<ArticleReaderCubit, ArticleReaderState>(
+              listenWhen: (previous, current) =>
+                  previous.errorMessage != current.errorMessage &&
+                  current.errorMessage != null,
+              listener: (context, state) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   buildSnackBar(
-                    'Article saved successfully.',
-                    type: AppSnackBarType.success,
-                  ),
-                );
-              } else if (state is LocalArticlesError) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  buildSnackBar(
-                    'There was an error saving the article.',
+                    state.errorMessage!,
                     type: AppSnackBarType.error,
                   ),
                 );
-              }
-            },
-            child: Scaffold(
-              appBar: ArticleDetailAppBar(
-                onBackPressed: () => _onBackButtonTapped(innerContext),
-              ),
-              body: ArticleDetailBody(article: selectedArticle),
-              floatingActionButton:
-                  BlocBuilder<LocalArticleBloc, LocalArticlesState>(
-                builder: (context, state) {
-                  if (state is LocalArticlesLoading) {
-                    return const SizedBox.shrink();
-                  }
-
-                  final isAlreadySaved = state is LocalArticlesDone &&
-                      _isArticleSaved(state.articles ?? [], selectedArticle);
-
-                  if (isAlreadySaved) return const SizedBox.shrink();
-
-                  return ArticleDetailSaveButton(
-                    onPressed: () =>
-                        _onFloatingActionButtonPressed(innerContext),
-                  );
-                },
-              ),
+                context.read<ArticleReaderCubit>().acknowledgeError();
+              },
             ),
-          );
-        },
+          ],
+          child: PopScope(
+            onPopInvokedWithResult: (_, __) {
+              innerContext.read<ArticleReaderCubit>().stopReading();
+            },
+            child: BlocBuilder<ArticleReaderCubit, ArticleReaderState>(
+              builder: (context, readerState) {
+                return Scaffold(
+                  appBar: ArticleDetailAppBar(
+                    onBackPressed: () => _onBackButtonTapped(innerContext),
+                    isReading: readerState.isReading,
+                    onReadTogglePressed: () =>
+                        _onReadTogglePressed(innerContext),
+                  ),
+                  body: ArticleDetailBody(
+                    article: selectedArticle,
+                  ),
+                  floatingActionButton:
+                      BlocBuilder<LocalArticleBloc, LocalArticlesState>(
+                    builder: (context, state) {
+                      if (state is LocalArticlesLoading) {
+                        return const SizedBox.shrink();
+                      }
+
+                      final isAlreadySaved = state is LocalArticlesDone &&
+                          _isArticleSaved(
+                              state.articles ?? [], selectedArticle);
+
+                      if (isAlreadySaved) return const SizedBox.shrink();
+
+                      return ArticleDetailSaveButton(
+                        onPressed: () =>
+                            _onFloatingActionButtonPressed(innerContext),
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
       ),
     );
   }
 
   void _onBackButtonTapped(BuildContext context) {
+    context.read<ArticleReaderCubit>().stopReading();
     Navigator.pop(context);
   }
 
@@ -88,6 +128,12 @@ class ArticleDetailsView extends StatelessWidget {
 
     BlocProvider.of<LocalArticleBloc>(context)
         .add(SaveArticle(selectedArticle));
+  }
+
+  Future<void> _onReadTogglePressed(BuildContext context) async {
+    final selectedArticle = article;
+    if (selectedArticle == null) return;
+    await context.read<ArticleReaderCubit>().toggleRead(selectedArticle);
   }
 
   bool _isArticleSaved(
